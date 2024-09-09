@@ -108,12 +108,12 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
 
     @Override
     public long maxAmperesIn() {
-        return Amperes + (Amperes >> 2);
+        return Math.round(RecipeTimeAdjuster.getMultiplierByMSPT() * (Amperes + (Amperes >> 2)));
     }
 
     @Override
     public long maxWorkingAmperesIn() {
-        return Amperes;
+        return Math.round(RecipeTimeAdjuster.getMultiplierByMSPT() * Amperes);
     }
 
     @Override

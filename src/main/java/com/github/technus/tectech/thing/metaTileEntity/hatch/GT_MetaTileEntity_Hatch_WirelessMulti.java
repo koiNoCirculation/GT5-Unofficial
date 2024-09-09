@@ -142,12 +142,12 @@ public class GT_MetaTileEntity_Hatch_WirelessMulti extends GT_MetaTileEntity_Hat
 
     @Override
     public long maxAmperesIn() {
-        return Amperes;
+        return Math.round(RecipeTimeAdjuster.getMultiplierByMSPT() * Amperes);
     }
 
     @Override
     public long maxWorkingAmperesIn() {
-        return Amperes;
+        return Math.round(Amperes);
     }
 
     @Override

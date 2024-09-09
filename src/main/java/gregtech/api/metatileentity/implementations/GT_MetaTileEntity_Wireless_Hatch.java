@@ -101,11 +101,6 @@ public class GT_MetaTileEntity_Wireless_Hatch extends GT_MetaTileEntity_Hatch_En
     }
 
     @Override
-    public long maxAmperesIn() {
-        return 2;
-    }
-
-    @Override
     public ConnectionType getConnectionType() {
         return ConnectionType.WIRELESS;
     }
