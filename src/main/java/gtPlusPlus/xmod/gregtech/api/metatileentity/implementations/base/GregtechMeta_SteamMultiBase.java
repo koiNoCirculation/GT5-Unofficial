@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,6 +36,7 @@ import gregtech.api.util.GT_Utility;
 import gregtech.api.util.GT_Waila;
 import gregtech.api.util.IGT_HatchAdder;
 import gregtech.api.util.shutdown.ShutDownReasonRegistry;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gtPlusPlus.core.util.minecraft.FluidUtils;
 import gtPlusPlus.xmod.gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Steam_BusInput;
 import gtPlusPlus.xmod.gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Steam_BusOutput;
@@ -89,7 +89,7 @@ public abstract class GregtechMeta_SteamMultiBase<T extends GregtechMeta_SteamMu
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         logic.setAvailableVoltage(V[1]);
         // We need to trick the GT_ParallelHelper we have enough amps for all recipe parallels.
-        logic.setAvailableAmperage((long)(RecipeTimeAdjuster.getMultiplierByMSPT() * getMaxParallelRecipes()));
+        logic.setAvailableAmperage((long) (RecipeTimeAdjuster.getMultiplierByMSPT() * getMaxParallelRecipes()));
         logic.setAmperageOC(false);
     }
 

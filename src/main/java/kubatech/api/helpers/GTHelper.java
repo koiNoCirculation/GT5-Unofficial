@@ -25,7 +25,6 @@ import static kubatech.api.Variables.ln4;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 
@@ -33,6 +32,7 @@ import com.kuba6000.mobsinfo.api.utils.ItemID;
 
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Energy;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_MultiBlockBase;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import kubatech.api.implementations.KubaTechGTMultiBlockBase;
 
 public class GTHelper {

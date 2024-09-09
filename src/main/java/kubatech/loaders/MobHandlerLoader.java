@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -60,6 +59,7 @@ import atomicstryker.infernalmobs.common.InfernalMobsCore;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import kubatech.Tags;
 import kubatech.api.helpers.ReflectionHelper;
 import kubatech.config.Config;
@@ -164,7 +164,8 @@ public class MobHandlerLoader {
 
             if (InfernalMobs.isModLoaded()) {
                 InfernalMobsCore infernalMobsCore = InfernalMobsCore.instance();
-                if (recipe.infernalityAllowed && mEUt * 8 <= Math.round(MTE.getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT())
+                if (recipe.infernalityAllowed
+                    && mEUt * 8 <= Math.round(MTE.getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT())
                     && !infernalMobsCore.getDimensionBlackList()
                         .contains(
                             MTE.getBaseMetaTileEntity()

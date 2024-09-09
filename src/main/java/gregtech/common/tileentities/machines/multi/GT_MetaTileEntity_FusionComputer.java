@@ -17,7 +17,6 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -79,6 +78,7 @@ import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Utility;
 import gregtech.api.util.shutdown.ShutDownReason;
 import gregtech.api.util.shutdown.ShutDownReasonRegistry;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gregtech.common.tileentities.machines.multi.drone.GT_MetaTileEntity_Hatch_DroneDownLink;
 
 public abstract class GT_MetaTileEntity_FusionComputer
@@ -360,7 +360,7 @@ public abstract class GT_MetaTileEntity_FusionComputer
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         logic.setAvailableVoltage(GT_Values.V[tier()]);
-        logic.setAvailableAmperage((long)Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
+        logic.setAvailableAmperage((long) Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
         logic.setAmperageOC(false);
     }
 
