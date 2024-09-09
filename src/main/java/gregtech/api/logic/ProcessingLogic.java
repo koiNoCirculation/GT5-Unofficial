@@ -188,11 +188,10 @@ public class ProcessingLogic extends AbstractProcessingLogic<ProcessingLogic> {
      */
     @Nonnull
     protected GT_ParallelHelper createParallelHelper(@Nonnull GT_Recipe recipe) {
-        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
         return new GT_ParallelHelper().setRecipe(recipe)
             .setItemInputs(inputItems)
             .setFluidInputs(inputFluids)
-            .setAvailableEUt(Math.round(availableVoltage * availableAmperage * multiplierByMSPT))
+            .setAvailableEUt(Math.round(availableVoltage * availableAmperage))
             .setMachine(machine, protectItems, protectFluids)
             .setRecipeLocked(recipeLockableMachine, isRecipeLocked)
             .setMaxParallel(maxParallel)

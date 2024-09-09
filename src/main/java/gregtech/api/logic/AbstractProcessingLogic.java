@@ -299,9 +299,8 @@ public abstract class AbstractProcessingLogic<P extends AbstractProcessingLogic<
      */
     @Nonnull
     protected GT_OverclockCalculator createOverclockCalculator(@Nonnull GT_Recipe recipe) {
-        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
         return new GT_OverclockCalculator().setRecipeEUt(recipe.mEUt)
-            .setAmperage((long) Math.ceil(availableAmperage * multiplierByMSPT))
+            .setAmperage((long) Math.ceil(availableAmperage))
             .setEUt(availableVoltage)
             .setDuration(recipe.mDuration)
             .setSpeedBoost(speedBoost)

@@ -115,11 +115,10 @@ public class MuTEProcessingLogic<P extends MuTEProcessingLogic<P>> extends Abstr
     @Nonnull
     protected GT_ParallelHelper createParallelHelper(@Nonnull GT_Recipe recipe, @Nonnull ItemInventoryLogic itemInput,
         @Nonnull FluidInventoryLogic fluidInput) {
-        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
         return new GT_ParallelHelper().setRecipe(recipe)
             .setItemInputInventory(itemInput)
             .setFluidInputInventory(fluidInput)
-            .setAvailableEUt(Math.round(availableVoltage * availableAmperage * multiplierByMSPT))
+            .setAvailableEUt(Math.round(availableVoltage * availableAmperage))
             .setMaxParallel(maxParallel)
             .setEUtModifier(euModifier)
             .enableBatchMode(batchSize)
