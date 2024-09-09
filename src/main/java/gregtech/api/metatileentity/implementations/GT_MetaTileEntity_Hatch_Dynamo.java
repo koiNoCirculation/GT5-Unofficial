@@ -94,7 +94,7 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
 
     @Override
     public long maxEUStore() {
-        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * (512L + V[mTier + 1] * 2L));
+        return (long) (RecipeTimeAdjuster.getMultiplierByMSPT() * (512L + V[mTier + 1] * 2L));
     }
 
     @Override

@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -399,7 +400,7 @@ public abstract class GregtechMeta_MultiBlockBase<T extends GT_MetaTileEntity_Ex
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         logic.setAvailableVoltage(GT_Utility.roundUpVoltage(this.getMaxInputVoltage()));
-        logic.setAvailableAmperage(1L);
+        logic.setAvailableAmperage((long)Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
     }
 
     public long getMaxInputEnergy() {

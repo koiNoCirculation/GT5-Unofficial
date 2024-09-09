@@ -48,6 +48,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
@@ -547,15 +548,15 @@ public class GT_MetaTileEntity_ExtremeEntityCrusher
             return SimpleCheckRecipeResult.ofFailure("EEC_peaceful");
 
         if (isInRitualMode && isRitualValid()) {
-            if (getMaxInputEu() < recipe.mEUt / 4) return CheckRecipeResultRegistry.insufficientPower(recipe.mEUt / 4);
+            if (Math.round(getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT()) < recipe.mEUt / 4) return CheckRecipeResultRegistry.insufficientPower(recipe.mEUt / 4);
             this.mOutputFluids = new FluidStack[] { FluidRegistry.getFluidStack("xpjuice", 5000) };
             this.mOutputItems = recipe
                 .generateOutputs(rand, this, 3, 0, mIsProducingInfernalDrops, voidAllDamagedAndEnchantedItems);
             this.lEUt /= 4L;
             this.mMaxProgresstime = 400;
         } else {
-            if (getMaxInputEu() < recipe.mEUt) return CheckRecipeResultRegistry.insufficientPower(recipe.mEUt);
-            if (recipe.recipe.alwaysinfernal && getMaxInputEu() < recipe.mEUt * 8)
+            if (Math.round(getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT()) < recipe.mEUt) return CheckRecipeResultRegistry.insufficientPower(recipe.mEUt);
+            if (recipe.recipe.alwaysinfernal && Math.round(getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT()) < recipe.mEUt * 8)
                 return CheckRecipeResultRegistry.insufficientPower(recipe.mEUt * 8);
 
             double attackDamage = DIAMOND_SPIKES_DAMAGE; // damage from spikes

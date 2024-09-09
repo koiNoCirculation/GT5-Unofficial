@@ -14,7 +14,6 @@ import gregtech.api.recipe.check.CheckRecipeResultRegistry;
 import gregtech.api.util.GT_OverclockCalculator;
 import gregtech.api.util.GT_ParallelHelper;
 import gregtech.api.util.GT_Recipe;
-import gregtech.common.misc.RecipeTimeAdjuster;
 
 /**
  * Logic class to calculate result of recipe check from inputs.

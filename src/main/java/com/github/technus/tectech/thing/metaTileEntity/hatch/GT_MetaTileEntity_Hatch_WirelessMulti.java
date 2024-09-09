@@ -13,7 +13,6 @@ import static java.lang.Long.min;
 
 import java.math.BigInteger;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -25,6 +24,7 @@ import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.interfaces.tileentity.IWirelessEnergyHatchInformation;
 import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 public class GT_MetaTileEntity_Hatch_WirelessMulti extends GT_MetaTileEntity_Hatch_EnergyMulti
     implements IGlobalWirelessEnergy, IWirelessEnergyHatchInformation {
@@ -137,7 +137,7 @@ public class GT_MetaTileEntity_Hatch_WirelessMulti extends GT_MetaTileEntity_Hat
 
     @Override
     public long maxEUStore() {
-        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * totalStorage(V[mTier]) * Amperes / 2);
+        return (long) (RecipeTimeAdjuster.getMultiplierByMSPT() * totalStorage(V[mTier]) * Amperes / 2);
     }
 
     @Override

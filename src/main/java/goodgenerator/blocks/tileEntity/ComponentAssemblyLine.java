@@ -45,6 +45,7 @@ import gregtech.api.util.GT_OverclockCalculator;
 import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_StructureUtility;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 public class ComponentAssemblyLine extends GT_MetaTileEntity_ExtendedPowerMultiBlockBase<ComponentAssemblyLine>
     implements ISurvivalConstructable {
@@ -329,8 +330,8 @@ public class ComponentAssemblyLine extends GT_MetaTileEntity_ExtendedPowerMultiB
 
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
-        logic.setAvailableVoltage(getMaxInputEu());
-        logic.setAvailableAmperage(1);
+        logic.setAvailableVoltage(Math.round(this.getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT()));
+        logic.setAvailableAmperage((long) Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
     }
 
     @Override

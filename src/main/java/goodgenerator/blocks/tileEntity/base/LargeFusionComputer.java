@@ -66,6 +66,7 @@ import gregtech.api.util.GT_OverclockCalculator;
 import gregtech.api.util.GT_ParallelHelper;
 import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gregtech.common.tileentities.machines.IDualInputHatch;
 import gregtech.common.tileentities.machines.multi.drone.GT_MetaTileEntity_Hatch_DroneDownLink;
 
@@ -482,7 +483,8 @@ public abstract class LargeFusionComputer extends GT_MetaTileEntity_TooltipMulti
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         logic.setAvailableVoltage(GT_Values.V[tier()]);
-        logic.setAvailableAmperage(getSingleHatchPower() * 32 / GT_Values.V[tier()]);
+        logic.setAvailableAmperage(
+            Math.round(RecipeTimeAdjuster.getMultiplierByMSPT() * getSingleHatchPower() * 32 / GT_Values.V[tier()]));
     }
 
     @Override

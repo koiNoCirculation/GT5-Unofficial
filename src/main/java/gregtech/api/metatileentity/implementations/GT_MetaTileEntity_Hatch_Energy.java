@@ -2,7 +2,6 @@ package gregtech.api.metatileentity.implementations;
 
 import static gregtech.api.enums.GT_Values.V;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -11,6 +10,7 @@ import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 public class GT_MetaTileEntity_Hatch_Energy extends GT_MetaTileEntity_Hatch {
 
@@ -99,7 +99,7 @@ public class GT_MetaTileEntity_Hatch_Energy extends GT_MetaTileEntity_Hatch {
 
     @Override
     public long maxEUStore() {
-        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * 512L + V[mTier] * 8L);
+        return (long) (RecipeTimeAdjuster.getMultiplierByMSPT() * 512L + V[mTier] * 8L);
     }
 
     @Override

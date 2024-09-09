@@ -8,7 +8,6 @@ import static java.lang.Long.min;
 import java.math.BigInteger;
 import java.util.UUID;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -19,6 +18,7 @@ import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.interfaces.tileentity.IWirelessEnergyHatchInformation;
 import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gregtech.common.misc.spaceprojects.SpaceProjectManager;
 
 public class GT_MetaTileEntity_Wireless_Hatch extends GT_MetaTileEntity_Hatch_Energy
@@ -97,7 +97,7 @@ public class GT_MetaTileEntity_Wireless_Hatch extends GT_MetaTileEntity_Hatch_En
 
     @Override
     public long maxEUStore() {
-        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * totalStorage(V[mTier]));
+        return (long) (RecipeTimeAdjuster.getMultiplierByMSPT() * totalStorage(V[mTier]));
     }
 
     @Override

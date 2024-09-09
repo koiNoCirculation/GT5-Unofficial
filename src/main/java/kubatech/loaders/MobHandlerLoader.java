@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -163,7 +164,7 @@ public class MobHandlerLoader {
 
             if (InfernalMobs.isModLoaded()) {
                 InfernalMobsCore infernalMobsCore = InfernalMobsCore.instance();
-                if (recipe.infernalityAllowed && mEUt * 8 <= MTE.getMaxInputEu()
+                if (recipe.infernalityAllowed && mEUt * 8 <= Math.round(MTE.getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT())
                     && !infernalMobsCore.getDimensionBlackList()
                         .contains(
                             MTE.getBaseMetaTileEntity()

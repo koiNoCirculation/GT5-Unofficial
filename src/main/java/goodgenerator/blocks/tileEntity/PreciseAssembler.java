@@ -17,6 +17,7 @@ import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -262,7 +263,7 @@ public class PreciseAssembler extends GT_MetaTileEntity_ExtendedPowerMultiBlockB
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         boolean useSingleAmp = mEnergyHatches.size() == 1 && mExoticEnergyHatches.isEmpty();
         logic.setAvailableVoltage(getMachineVoltageLimit());
-        logic.setAvailableAmperage(useSingleAmp ? 1 : getMaxInputAmps());
+        logic.setAvailableAmperage(useSingleAmp ? (long)Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()) : getMaxInputAmps());
         logic.setAmperageOC(true);
     }
 

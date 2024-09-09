@@ -25,6 +25,7 @@ import static kubatech.api.Variables.ln4;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 
@@ -49,7 +50,7 @@ public class GTHelper {
     }
 
     public static double getVoltageTierD(GT_MetaTileEntity_MultiBlockBase mte) {
-        return Math.log((double) getMaxInputEU(mte) / 8L) / ln4;
+        return Math.log((double) getMaxInputEU(mte) / RecipeTimeAdjuster.getMultiplierByMSPT() / 8L) / ln4;
     }
 
     public static int getVoltageTier(long voltage) {

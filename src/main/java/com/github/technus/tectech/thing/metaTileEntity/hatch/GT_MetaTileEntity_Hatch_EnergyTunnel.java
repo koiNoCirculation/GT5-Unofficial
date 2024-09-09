@@ -5,7 +5,6 @@ import static com.github.technus.tectech.util.CommonValues.TRANSFER_AT;
 import static com.github.technus.tectech.util.CommonValues.V;
 import static net.minecraft.util.StatCollector.translateToLocal;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -19,6 +18,7 @@ import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 /**
  * Created by danie_000 on 16.12.2016.
@@ -96,7 +96,7 @@ public class GT_MetaTileEntity_Hatch_EnergyTunnel extends GT_MetaTileEntity_Hatc
 
     @Override
     public long maxEUStore() {
-        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * V[mTier] * 24L * Amperes);
+        return (long) (RecipeTimeAdjuster.getMultiplierByMSPT() * V[mTier] * 24L * Amperes);
     }
 
     @Override

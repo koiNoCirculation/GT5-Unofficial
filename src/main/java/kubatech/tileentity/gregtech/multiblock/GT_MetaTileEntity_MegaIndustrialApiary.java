@@ -53,6 +53,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -412,7 +413,7 @@ public class GT_MetaTileEntity_MegaIndustrialApiary
 
     private void updateMaxSlots() {
         int mOld = mMaxSlots;
-        long v = this.getMaxInputEu();
+        long v = Math.round(this.getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT());
         if (v < GT_Values.V[6]) mMaxSlots = 0;
         else if (mSecondaryMode == 0) mMaxSlots = (int) (v / GT_Values.V[6]);
         else mMaxSlots = 1;

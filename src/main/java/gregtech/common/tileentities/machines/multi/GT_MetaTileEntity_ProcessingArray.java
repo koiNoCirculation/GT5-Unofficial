@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -265,7 +266,7 @@ public class GT_MetaTileEntity_ProcessingArray extends
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         logic.setAvailableVoltage(GT_Values.V[tTier] * (mLastRecipeMap != null ? mLastRecipeMap.getAmperage() : 1));
-        logic.setAvailableAmperage(getMaxParallel());
+        logic.setAvailableAmperage((long)Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT() * getMaxParallel()));
         logic.setAmperageOC(false);
     }
 

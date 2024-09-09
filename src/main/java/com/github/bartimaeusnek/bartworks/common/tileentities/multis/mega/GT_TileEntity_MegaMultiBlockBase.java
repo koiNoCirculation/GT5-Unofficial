@@ -22,6 +22,7 @@ import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Energy;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Muffler;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 public abstract class GT_TileEntity_MegaMultiBlockBase<T extends GT_TileEntity_MegaMultiBlockBase<T>>
     extends GT_MetaTileEntity_ExtendedPowerMultiBlockBase<T> {
@@ -160,8 +161,9 @@ public abstract class GT_TileEntity_MegaMultiBlockBase<T extends GT_TileEntity_M
 
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
-        logic.setAvailableVoltage(this.getMaxInputEu());
-        logic.setAvailableAmperage(1);
+        // avoid unexpected side effect
+        logic.setAvailableVoltage(Math.round(this.getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT()));
+        logic.setAvailableAmperage((long) Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
     }
 
     protected static class StructureElementAirNoHint<T> implements IStructureElement<T> {

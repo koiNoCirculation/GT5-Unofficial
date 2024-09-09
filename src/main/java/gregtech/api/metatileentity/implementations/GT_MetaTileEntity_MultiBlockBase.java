@@ -1155,6 +1155,10 @@ public abstract class GT_MetaTileEntity_MultiBlockBase extends MetaTileEntity
         return GT_ExoticEnergyInputHelper.getMaxWorkingInputAmpsMulti(mEnergyHatches);
     }
 
+    /*
+     * all calls to getMaxInputEu should be modified according to tps, to avoid unexpected side effects like
+     * overclocking
+     */
     public long getMaxInputEu() {
         return GT_ExoticEnergyInputHelper.getTotalEuMulti(mEnergyHatches);
     }

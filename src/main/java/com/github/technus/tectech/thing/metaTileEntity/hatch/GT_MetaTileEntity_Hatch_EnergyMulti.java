@@ -5,7 +5,6 @@ import static com.github.technus.tectech.util.CommonValues.V;
 import static net.minecraft.util.StatCollector.translateToLocal;
 import static net.minecraft.util.StatCollector.translateToLocalFormatted;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -17,6 +16,7 @@ import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 /**
  * Created by danie_000 on 16.12.2016.
@@ -103,7 +103,7 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
 
     @Override
     public long maxEUStore() {
-        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * (512L + V[mTier] * 4L * Amperes));
+        return (long) (RecipeTimeAdjuster.getMultiplierByMSPT() * (512L + V[mTier] * 4L * Amperes));
     }
 
     @Override

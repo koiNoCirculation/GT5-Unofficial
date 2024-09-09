@@ -28,7 +28,6 @@ import gregtech.api.util.GT_OverclockCalculator;
 import gregtech.api.util.GT_ParallelHelper;
 import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Utility;
-import gregtech.common.misc.RecipeTimeAdjuster;
 
 /**
  * Processing logic class, dedicated for MultiTileEntities.

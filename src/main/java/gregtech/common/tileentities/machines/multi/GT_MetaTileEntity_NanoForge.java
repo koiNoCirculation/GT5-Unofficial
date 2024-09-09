@@ -18,6 +18,7 @@ import static gregtech.api.util.GT_StructureUtility.ofFrame;
 
 import javax.annotation.Nonnull;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -254,8 +255,8 @@ public class GT_MetaTileEntity_NanoForge extends
 
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
-        logic.setAvailableVoltage(getMaxInputEu());
-        logic.setAvailableAmperage(1);
+        logic.setAvailableVoltage(Math.round(this.getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT()));
+        logic.setAvailableAmperage((long) Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
         logic.setAmperageOC(false);
     }
 

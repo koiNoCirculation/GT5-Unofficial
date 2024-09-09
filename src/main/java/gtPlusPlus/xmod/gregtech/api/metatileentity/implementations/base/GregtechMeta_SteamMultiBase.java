@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -88,7 +89,7 @@ public abstract class GregtechMeta_SteamMultiBase<T extends GregtechMeta_SteamMu
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         logic.setAvailableVoltage(V[1]);
         // We need to trick the GT_ParallelHelper we have enough amps for all recipe parallels.
-        logic.setAvailableAmperage(getMaxParallelRecipes());
+        logic.setAvailableAmperage((long)(RecipeTimeAdjuster.getMultiplierByMSPT() * getMaxParallelRecipes()));
         logic.setAmperageOC(false);
     }
 
