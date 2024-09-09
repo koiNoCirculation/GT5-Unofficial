@@ -15,6 +15,7 @@ import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 /**
  * Created by danie_000 on 16.12.2016.
@@ -106,7 +107,7 @@ public class GT_MetaTileEntity_Hatch_DynamoMulti extends GT_MetaTileEntity_Hatch
 
     @Override
     public long maxAmperesOut() {
-        return Amperes;
+        return Math.round(Amperes * RecipeTimeAdjuster.getMultiplierByMSPT());
     }
 
     @Override

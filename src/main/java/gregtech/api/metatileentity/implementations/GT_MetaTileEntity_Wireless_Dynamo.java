@@ -17,6 +17,7 @@ import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.interfaces.tileentity.IWirelessEnergyHatchInformation;
 import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 public class GT_MetaTileEntity_Wireless_Dynamo extends GT_MetaTileEntity_Hatch_Dynamo
     implements IWirelessEnergyHatchInformation {
@@ -96,7 +97,7 @@ public class GT_MetaTileEntity_Wireless_Dynamo extends GT_MetaTileEntity_Hatch_D
 
     @Override
     public long maxAmperesOut() {
-        return 2;
+        return Math.round(2 * RecipeTimeAdjuster.getMultiplierByMSPT());
     }
 
     @Override

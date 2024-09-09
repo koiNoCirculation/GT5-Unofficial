@@ -332,7 +332,7 @@ public class GT_MetaTileEntity_EM_research extends GT_MetaTileEntity_MultiblockB
         for (GT_Recipe ttRecipe : TecTechRecipeMaps.researchStationFakeRecipes.getAllRecipes()) {
             if (GT_Utility.areStacksEqual(ttRecipe.mInputs[0], holdItem, true)) {
                 computationRequired = computationRemaining = Math
-                    .round(ttRecipe.mDuration * 20L / RecipeTimeAdjuster.getParallelismMultiplierByMSPT());
+                    .round(ttRecipe.mDuration * 20L / RecipeTimeAdjuster.getMultiplierByMSPT());
                 mMaxProgresstime = 20;
                 mEfficiencyIncrease = 10000;
                 eRequiredData = (short) (ttRecipe.mSpecialValue >>> 16);

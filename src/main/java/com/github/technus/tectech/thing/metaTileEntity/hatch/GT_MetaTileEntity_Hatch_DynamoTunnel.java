@@ -22,6 +22,7 @@ import gregtech.api.logic.PowerLogic;
 import gregtech.api.logic.interfaces.PowerLogicHost;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 /**
  * Created by danie_000 on 16.12.2016.
@@ -138,11 +139,12 @@ public class GT_MetaTileEntity_Hatch_DynamoTunnel extends GT_MetaTileEntity_Hatc
 
     @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
+        long adjustedAmps = Math.round(Amperes * RecipeTimeAdjuster.getMultiplierByMSPT());
         if (aBaseMetaTileEntity.isServerSide()) {
             byte Tick = (byte) (aTick % 20);
             if (TRANSFER_AT == Tick) {
                 if (aBaseMetaTileEntity.getStoredEU() > 0) {
-                    setEUVar(aBaseMetaTileEntity.getStoredEU() - Amperes);
+                    setEUVar(aBaseMetaTileEntity.getStoredEU() - adjustedAmps);
                     if (aBaseMetaTileEntity.getStoredEU() < 0) {
                         setEUVar(0);
                     }
@@ -155,6 +157,7 @@ public class GT_MetaTileEntity_Hatch_DynamoTunnel extends GT_MetaTileEntity_Hatc
     }
 
     private void moveAround(IGregTechTileEntity aBaseMetaTileEntity) {
+        long adjustedAmps = Math.round(Amperes * RecipeTimeAdjuster.getMultiplierByMSPT());
         byte color = getBaseMetaTileEntity().getColorization();
         if (color < 0) {
             return;
@@ -177,7 +180,7 @@ public class GT_MetaTileEntity_Hatch_DynamoTunnel extends GT_MetaTileEntity_Hatc
                         } else if (maxEUOutput()
                             == ((GT_MetaTileEntity_Hatch_EnergyTunnel) aMetaTileEntity).maxEUInput()) {
                                 long diff = Math.min(
-                                    Amperes * 20L * maxEUOutput(),
+                                    adjustedAmps * 20L * maxEUOutput(),
                                     Math.min(
                                         ((GT_MetaTileEntity_Hatch_EnergyTunnel) aMetaTileEntity).maxEUStore()
                                             - aMetaTileEntity.getBaseMetaTileEntity()
@@ -207,7 +210,7 @@ public class GT_MetaTileEntity_Hatch_DynamoTunnel extends GT_MetaTileEntity_Hatc
                             return;
                         }
 
-                        long ampsUsed = logic.injectEnergy(maxEUOutput(), Amperes);
+                        long ampsUsed = logic.injectEnergy(maxEUOutput(), adjustedAmps);
                         setEUVar(aBaseMetaTileEntity.getStoredEU() - ampsUsed * maxEUOutput());
                     }
                     return;

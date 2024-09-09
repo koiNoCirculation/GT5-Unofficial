@@ -5,6 +5,7 @@ import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaTileEntity_Hatch_Dynamo;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gtPlusPlus.core.lib.CORE;
 import gtPlusPlus.xmod.gregtech.common.blocks.textures.TexturesGtBlock;
 
@@ -62,6 +63,6 @@ public class GT_MetaTileEntity_Hatch_DynamoBuffer extends GT_MetaTileEntity_Hatc
 
     @Override
     public long maxAmperesOut() {
-        return 4;
+        return Math.round(4 * RecipeTimeAdjuster.getMultiplierByMSPT());
     }
 }

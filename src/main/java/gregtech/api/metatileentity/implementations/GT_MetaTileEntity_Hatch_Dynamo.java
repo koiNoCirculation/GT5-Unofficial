@@ -10,6 +10,7 @@ import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
 
@@ -79,6 +80,11 @@ public class GT_MetaTileEntity_Hatch_Dynamo extends GT_MetaTileEntity_Hatch {
     @Override
     public long getMinimumStoredEU() {
         return 512;
+    }
+
+    @Override
+    public long maxAmperesOut() {
+        return Math.round(RecipeTimeAdjuster.getMultiplierByMSPT());
     }
 
     @Override

@@ -85,6 +85,7 @@ import gregtech.api.util.shutdown.ShutDownReason;
 import gregtech.api.util.shutdown.ShutDownReasonRegistry;
 import gregtech.common.GT_Pollution;
 import gregtech.common.covers.CoverInfo;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import ic2.api.Direction;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -1224,7 +1225,7 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
 
     @Override
     public long getEUCapacity() {
-        if (canAccessData()) return mMetaTileEntity.maxEUStore();
+        if (canAccessData()) return Math.round(mMetaTileEntity.maxEUStore() * RecipeTimeAdjuster.getMultiplierByMSPT());
         return 0;
     }
 
@@ -2023,28 +2024,28 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
 
     @Override
     public long injectEnergyUnits(ForgeDirection side, long aVoltage, long aAmperage) {
+        double ampereAdjustedBytps = mMetaTileEntity.maxAmperesIn() * RecipeTimeAdjuster.getMultiplierByMSPT();
         if (!canAccessData() || !mMetaTileEntity.isElectric()
             || !inputEnergyFrom(side)
             || aAmperage <= 0
             || aVoltage <= 0
             || getStoredEU() >= getEUCapacity()
-            || mMetaTileEntity.maxAmperesIn() <= mAcceptedAmperes) return 0;
+            || ampereAdjustedBytps <= mAcceptedAmperes) return 0;
         if (aVoltage > getInputVoltage()) {
             GT_Log.exp
                 .println("Energy Explosion, injected " + aVoltage + "EU/t in a " + getInputVoltage() + "EU/t Machine!");
             doExplosion(aVoltage);
             return 0;
         }
-        if (increaseStoredEnergyUnits(
-            aVoltage * (aAmperage = Math.min(
-                aAmperage,
-                Math.min(
-                    mMetaTileEntity.maxAmperesIn() - mAcceptedAmperes,
-                    1 + ((getEUCapacity() - getStoredEU()) / aVoltage)))),
-            true)) {
+        double usedAmpere = Math.min(
+            aAmperage,
+            Math.min(
+                ampereAdjustedBytps - mAcceptedAmperes,
+                1 + ((getEUCapacity() - getStoredEU()) / (double) aVoltage)));
+        if (increaseStoredEnergyUnits(Math.round(aVoltage * usedAmpere), true)) {
             mAverageEUInput[mAverageEUInputIndex] += aVoltage * aAmperage;
-            mAcceptedAmperes += aAmperage;
-            return aAmperage;
+            mAcceptedAmperes += Math.round(usedAmpere);
+            return mAcceptedAmperes;
         }
         return 0;
     }

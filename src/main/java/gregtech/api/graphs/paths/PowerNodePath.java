@@ -7,6 +7,7 @@ import gregtech.api.metatileentity.BaseMetaPipeEntity;
 import gregtech.api.metatileentity.MetaPipeEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
 import gregtech.api.util.AveragePerTickCounter;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 // path for cables
 // all calculations like amp and voltage happens here
@@ -139,12 +140,14 @@ public class PowerNodePath extends NodePath {
 
     @Override
     protected void processPipes() {
+        double ampMultiplier = RecipeTimeAdjuster.getMultiplierByMSPT();
         super.processPipes();
         mMaxAmps = Integer.MAX_VALUE;
         mMaxVoltage = Integer.MAX_VALUE;
         for (MetaPipeEntity tCable : mPipes) {
             if (tCable instanceof GT_MetaPipeEntity_Cable) {
-                mMaxAmps = Math.min(((GT_MetaPipeEntity_Cable) tCable).mAmperage, mMaxAmps);
+                mMaxAmps = Math
+                    .min((long) Math.ceil(((GT_MetaPipeEntity_Cable) tCable).mAmperage * ampMultiplier), mMaxAmps);
                 mLoss += ((GT_MetaPipeEntity_Cable) tCable).mCableLossPerMeter;
                 mMaxVoltage = Math.min(((GT_MetaPipeEntity_Cable) tCable).mVoltage, mMaxVoltage);
             }

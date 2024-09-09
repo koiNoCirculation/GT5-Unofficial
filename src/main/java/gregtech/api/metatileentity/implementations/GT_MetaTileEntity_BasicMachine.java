@@ -673,15 +673,13 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
 
                         // when mspt is low, try to reduce recipe time correspondingly, though it will also reduce EUt
                         // but, with the cost of overloading your computer, is it worth?
-                        double multiplierByMSPT = RecipeTimeAdjuster.getParallelismMultiplierByMSPT();
+                        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
                         int scaledProgressTime = Math.max(1, (int) Math.ceil(mMaxProgresstime / multiplierByMSPT));
-                        /*
                         if (scaledProgressTime > 1) {
                             mEUt = (int) Math.round(mEUt * multiplierByMSPT);
                         } else {
                             mEUt = (int) Math.round(mEUt * mMaxProgresstime);
                         }
-                        */
                         mMaxProgresstime = scaledProgressTime;
                         if (GT_Utility.isDebugItem(mInventory[dechargerSlotStartIndex()])) {
                             mEUt = mMaxProgresstime = 1;

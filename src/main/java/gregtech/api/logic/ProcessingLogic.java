@@ -17,6 +17,7 @@ import gregtech.api.recipe.check.SingleRecipeCheck;
 import gregtech.api.util.GT_OverclockCalculator;
 import gregtech.api.util.GT_ParallelHelper;
 import gregtech.api.util.GT_Recipe;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 /**
  * Logic class to calculate result of recipe check from inputs, based on recipemap.
@@ -187,10 +188,11 @@ public class ProcessingLogic extends AbstractProcessingLogic<ProcessingLogic> {
      */
     @Nonnull
     protected GT_ParallelHelper createParallelHelper(@Nonnull GT_Recipe recipe) {
+        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
         return new GT_ParallelHelper().setRecipe(recipe)
             .setItemInputs(inputItems)
             .setFluidInputs(inputFluids)
-            .setAvailableEUt(availableVoltage * availableAmperage)
+            .setAvailableEUt(Math.round(availableVoltage * availableAmperage * multiplierByMSPT))
             .setMachine(machine, protectItems, protectFluids)
             .setRecipeLocked(recipeLockableMachine, isRecipeLocked)
             .setMaxParallel(maxParallel)

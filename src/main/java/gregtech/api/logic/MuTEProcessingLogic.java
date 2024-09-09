@@ -28,6 +28,7 @@ import gregtech.api.util.GT_OverclockCalculator;
 import gregtech.api.util.GT_ParallelHelper;
 import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 /**
  * Processing logic class, dedicated for MultiTileEntities.
@@ -114,10 +115,11 @@ public class MuTEProcessingLogic<P extends MuTEProcessingLogic<P>> extends Abstr
     @Nonnull
     protected GT_ParallelHelper createParallelHelper(@Nonnull GT_Recipe recipe, @Nonnull ItemInventoryLogic itemInput,
         @Nonnull FluidInventoryLogic fluidInput) {
+        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
         return new GT_ParallelHelper().setRecipe(recipe)
             .setItemInputInventory(itemInput)
             .setFluidInputInventory(fluidInput)
-            .setAvailableEUt(availableVoltage * availableAmperage)
+            .setAvailableEUt(Math.round(availableVoltage * availableAmperage * multiplierByMSPT))
             .setMaxParallel(maxParallel)
             .setEUtModifier(euModifier)
             .enableBatchMode(batchSize)

@@ -28,7 +28,7 @@ public class RecipeTimeAdjuster {
         tickTimeArray[tickCounter % DURATION] = tickTime;
     }
 
-    public static double getParallelismMultiplierByMSPT() {
+    public static double getMultiplierByMSPT() {
         if (ENABLE) {
             // return 2.0;
             return 20.0 / loadedTPS;
