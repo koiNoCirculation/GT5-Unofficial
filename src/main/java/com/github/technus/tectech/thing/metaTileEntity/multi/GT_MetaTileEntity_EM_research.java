@@ -75,6 +75,7 @@ import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Utility;
 import gregtech.api.util.IGT_HatchAdder;
 import gregtech.api.util.shutdown.ShutDownReason;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 
@@ -330,7 +331,8 @@ public class GT_MetaTileEntity_EM_research extends GT_MetaTileEntity_MultiblockB
     private boolean iterateRecipes() {
         for (GT_Recipe ttRecipe : TecTechRecipeMaps.researchStationFakeRecipes.getAllRecipes()) {
             if (GT_Utility.areStacksEqual(ttRecipe.mInputs[0], holdItem, true)) {
-                computationRequired = computationRemaining = ttRecipe.mDuration * 20L;
+                computationRequired = computationRemaining = Math
+                    .round(ttRecipe.mDuration * 20L / RecipeTimeAdjuster.getParallelismMultiplierByMSPT());
                 mMaxProgresstime = 20;
                 mEfficiencyIncrease = 10000;
                 eRequiredData = (short) (ttRecipe.mSpecialValue >>> 16);

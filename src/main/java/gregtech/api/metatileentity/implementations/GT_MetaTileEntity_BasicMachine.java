@@ -86,6 +86,7 @@ import gregtech.api.util.GT_TooltipDataCache;
 import gregtech.api.util.GT_Utility;
 import gregtech.api.util.GT_Waila;
 import gregtech.common.gui.modularui.UIHelper;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 
@@ -669,7 +670,19 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
                             mOutputItems[i] = GT_OreDictUnificator.get(true, mOutputItems[i]);
                         }
                         if (mFluid != null && mFluid.amount <= 0) mFluid = null;
-                        mMaxProgresstime = Math.max(1, mMaxProgresstime);
+
+                        // when mspt is low, try to reduce recipe time correspondingly, though it will also reduce EUt
+                        // but, with the cost of overloading your computer, is it worth?
+                        double multiplierByMSPT = RecipeTimeAdjuster.getParallelismMultiplierByMSPT();
+                        int scaledProgressTime = Math.max(1, (int) Math.ceil(mMaxProgresstime / multiplierByMSPT));
+                        /*
+                        if (scaledProgressTime > 1) {
+                            mEUt = (int) Math.round(mEUt * multiplierByMSPT);
+                        } else {
+                            mEUt = (int) Math.round(mEUt * mMaxProgresstime);
+                        }
+                        */
+                        mMaxProgresstime = scaledProgressTime;
                         if (GT_Utility.isDebugItem(mInventory[dechargerSlotStartIndex()])) {
                             mEUt = mMaxProgresstime = 1;
                         }

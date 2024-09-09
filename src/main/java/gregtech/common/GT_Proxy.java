@@ -173,6 +173,7 @@ import gregtech.common.items.GT_MetaGenerated_Tool_01;
 import gregtech.common.items.ID_MetaTool_01;
 import gregtech.common.misc.GlobalEnergyWorldSavedData;
 import gregtech.common.misc.GlobalMetricsCoverDatabase;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gregtech.common.misc.spaceprojects.SpaceProjectWorldSavedData;
 import gregtech.common.tileentities.machines.multi.drone.GT_MetaTileEntity_DroneCentre;
 
@@ -2230,6 +2231,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 
             // Making sure it is being freed up in order to prevent exploits or Garbage Collection mishaps.
             LAST_BROKEN_TILEENTITY.set(null);
+            RecipeTimeAdjuster.updateTickTimeArray();
         }
     }
 
@@ -2321,6 +2323,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
             }
 
             GT_Pollution.onWorldTick(aEvent);
+            RecipeTimeAdjuster.updateMSPT();
         }
     }
 

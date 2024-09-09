@@ -20,6 +20,7 @@ import gregtech.api.recipe.RecipeMap;
 import gregtech.api.recipe.check.CheckRecipeResult;
 import gregtech.api.recipe.check.CheckRecipeResultRegistry;
 import gregtech.api.recipe.check.SingleRecipeCheck;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 @SuppressWarnings({ "unused", "UnusedReturnValue" })
 public class GT_ParallelHelper {
@@ -466,7 +467,22 @@ public class GT_ParallelHelper {
             result = CheckRecipeResultRegistry.insufficientPower(tRecipeEUt);
             return;
         }
-
+        double multiplierByMSPT = RecipeTimeAdjuster.getParallelismMultiplierByMSPT();
+        int scaledProgressTime = Math.max(1, (int) Math.ceil(recipe.mDuration / multiplierByMSPT));
+        calculator.setDuration(scaledProgressTime);
+        /*
+        if (scaledProgressTime > 1) {
+            calculator.setEUtDiscount((float) (eutModifier * multiplierByMSPT));
+        } else {
+            calculator.setEUtDiscount(eutModifier * recipe.mDuration);
+            // when recipe time is 1 tick after applying modifier
+            // extra parallelism
+            maxParallel = (int) Math.round(maxParallel * multiplierByMSPT / recipe.mDuration);
+        }
+         */
+        if (scaledProgressTime <= 1) {
+            maxParallel = (int) Math.round(maxParallel * multiplierByMSPT / recipe.mDuration);
+        }
         // Save the original max parallel before calculating our overclocking under 1 tick
         int originalMaxParallel = maxParallel;
         double tickTimeAfterOC = calculator.setParallel(originalMaxParallel)
@@ -519,6 +535,8 @@ public class GT_ParallelHelper {
                 .setFluidOutputInventory(fluidOutputInventory)
                 .setMuTEMode(muteMode)
                 .build();
+
+            // Add extra parallelisms correspondingly in order to compensate tps
             maxParallel = Math.min(voidProtectionHelper.getMaxParallel(), maxParallel);
             if (voidProtectionHelper.isItemFull()) {
                 result = CheckRecipeResultRegistry.ITEM_OUTPUT_FULL;

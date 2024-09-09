@@ -88,6 +88,7 @@ import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Multiblock_Tooltip_Builder;
 import gregtech.api.util.GT_Utility;
 import gregtech.api.util.shutdown.ShutDownReason;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gregtech.common.tileentities.machines.GT_MetaTileEntity_Hatch_InputBus_ME;
 import gregtech.common.tileentities.machines.GT_MetaTileEntity_Hatch_OutputBus_ME;
 import gregtech.common.tileentities.machines.GT_MetaTileEntity_Hatch_Output_ME;
@@ -1330,9 +1331,10 @@ public class GT_MetaTileEntity_EM_EyeOfHarmony extends GT_MetaTileEntity_Multibl
             return CheckRecipeResultRegistry.insufficientStartupPower(usedEU.abs());
         }
 
-        mMaxProgresstime = recipeProcessTimeCalculator(
-            recipeObject.getRecipeTimeInTicks(),
-            recipeObject.getSpacetimeCasingTierRequired());
+        mMaxProgresstime = (int) Math.round(
+            recipeProcessTimeCalculator(
+                recipeObject.getRecipeTimeInTicks(),
+                recipeObject.getSpacetimeCasingTierRequired()) / RecipeTimeAdjuster.getParallelismMultiplierByMSPT());
 
         calculateInputFluidExcessValues(recipeObject.getHydrogenRequirement(), recipeObject.getHeliumRequirement());
 

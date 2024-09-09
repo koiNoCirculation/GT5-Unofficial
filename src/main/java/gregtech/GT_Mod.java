@@ -80,6 +80,7 @@ import gregtech.common.GT_Proxy;
 import gregtech.common.GT_RecipeAdder;
 import gregtech.common.covers.GT_Cover_FacadeAE;
 import gregtech.common.misc.GT_Command;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gregtech.common.misc.spaceprojects.commands.SPM_Command;
 import gregtech.common.misc.spaceprojects.commands.SP_Command;
 import gregtech.common.misc.spaceprojects.commands.SpaceProject_Command;
@@ -567,7 +568,6 @@ public class GT_Mod implements IGT_Mod {
 
     @Mod.EventHandler
     public void onLoadComplete(FMLLoadCompleteEvent aEvent) {
-        gregtechproxy.onLoadComplete();
         for (Runnable tRunnable : GregTech_API.sGTCompleteLoad) {
             try {
                 tRunnable.run();
@@ -590,7 +590,8 @@ public class GT_Mod implements IGT_Mod {
 
     @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent aEvent) {
-
+        gregtechproxy.onLoadComplete();
+        RecipeTimeAdjuster.init();
         for (Runnable tRunnable : GregTech_API.sBeforeGTServerstart) {
             try {
                 tRunnable.run();
