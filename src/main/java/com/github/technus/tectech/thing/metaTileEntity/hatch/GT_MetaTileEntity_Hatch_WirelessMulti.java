@@ -13,6 +13,7 @@ import static java.lang.Long.min;
 
 import java.math.BigInteger;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -136,7 +137,7 @@ public class GT_MetaTileEntity_Hatch_WirelessMulti extends GT_MetaTileEntity_Hat
 
     @Override
     public long maxEUStore() {
-        return totalStorage(V[mTier]) * Amperes / 2;
+        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * totalStorage(V[mTier]) * Amperes / 2);
     }
 
     @Override

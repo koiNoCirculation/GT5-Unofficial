@@ -102,7 +102,7 @@ public class GT_MetaTileEntity_Hatch_DynamoTunnel extends GT_MetaTileEntity_Hatc
 
     @Override
     public long maxEUStore() {
-        return V[mTier] * 24L * Amperes;
+        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * V[mTier] * 24L * Amperes);
     }
 
     @Override
@@ -186,7 +186,7 @@ public class GT_MetaTileEntity_Hatch_DynamoTunnel extends GT_MetaTileEntity_Hatc
                                             - aMetaTileEntity.getBaseMetaTileEntity()
                                                 .getStoredEU(),
                                         aBaseMetaTileEntity.getStoredEU()));
-
+                                diff = Math.max(0, diff);
                                 setEUVar(aBaseMetaTileEntity.getStoredEU() - diff);
 
                                 ((GT_MetaTileEntity_Hatch_EnergyTunnel) aMetaTileEntity).setEUVar(

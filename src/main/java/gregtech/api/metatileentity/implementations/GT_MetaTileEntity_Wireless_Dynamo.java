@@ -85,7 +85,7 @@ public class GT_MetaTileEntity_Wireless_Dynamo extends GT_MetaTileEntity_Hatch_D
 
     @Override
     public long maxEUStore() {
-        return totalStorage(V[mTier]);
+        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * totalStorage(V[mTier]));
     }
 
     @Override

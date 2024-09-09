@@ -38,7 +38,7 @@ public class GT_MetaTileEntity_Hatch_DynamoBuffer extends GT_MetaTileEntity_Hatc
 
     @Override
     public long maxEUStore() {
-        return 512L + GT_Values.V[this.mTier + 1] * 2048L;
+        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * (512L + GT_Values.V[this.mTier + 1] * 2048L));
     }
 
     @Override

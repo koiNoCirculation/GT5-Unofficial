@@ -8,6 +8,7 @@ import static java.lang.Long.min;
 import java.math.BigInteger;
 import java.util.UUID;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -96,7 +97,7 @@ public class GT_MetaTileEntity_Wireless_Hatch extends GT_MetaTileEntity_Hatch_En
 
     @Override
     public long maxEUStore() {
-        return totalStorage(V[mTier]);
+        return (long)(RecipeTimeAdjuster.getMultiplierByMSPT() * totalStorage(V[mTier]));
     }
 
     @Override
