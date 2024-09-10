@@ -1,5 +1,6 @@
 package gregtech.api.graphs.paths;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 
 import gregtech.api.enums.TickTime;
@@ -12,6 +13,8 @@ import gregtech.common.misc.RecipeTimeAdjuster;
 // path for cables
 // all calculations like amp and voltage happens here
 public class PowerNodePath extends NodePath {
+
+    static double lastMsptMultiplier = 1.0;
 
     long mMaxAmps;
     long mAmps = 0;
@@ -61,6 +64,13 @@ public class PowerNodePath extends NodePath {
     }
 
     private void reset(int aTimePassed) {
+        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
+        //when multiplier change, reset mAmps to 0 to avoid accidental cable burn
+        if(multiplierByMSPT != lastMsptMultiplier) {
+            mAmps = 0;
+            lastMsptMultiplier = multiplierByMSPT;
+            return;
+        }
         if (aTimePassed < 0 || aTimePassed > 100) {
             mAmps = 0;
             return;
@@ -80,6 +90,8 @@ public class PowerNodePath extends NodePath {
                     BaseMetaPipeEntity tBaseCable = (BaseMetaPipeEntity) tCable.getBaseMetaTileEntity();
                     if (tBaseCable != null) {
                         tBaseCable.setToFire();
+                        //tBaseCable.getWorld()
+                        //    .setBlock(tBaseCable.xCoord, tBaseCable.yCoord , tBaseCable.zCoord, Blocks.air);
                     }
                 }
             }

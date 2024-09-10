@@ -2043,7 +2043,7 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
                 ampereAdjustedBytps - mAcceptedAmperes,
                 1 + ((getEUCapacity() - getStoredEU()) / (double) aVoltage)));
         if (increaseStoredEnergyUnits(Math.round(aVoltage * usedAmpere), true)) {
-            mAverageEUInput[mAverageEUInputIndex] += aVoltage * aAmperage;
+            mAverageEUInput[mAverageEUInputIndex] += aVoltage * usedAmpere;
             mAcceptedAmperes += Math.round(usedAmpere);
             return mAcceptedAmperes;
         }
