@@ -156,49 +156,48 @@ public class GT_MetaTileEntity_Hatch_DynamoTunnel extends GT_MetaTileEntity_Hatc
         }
     }
 
-    private void moveAround(IGregTechTileEntity aBaseMetaTileEntity) {
+    private void moveAround(IGregTechTileEntity sourceMetaTile) {
         long adjustedAmps = Math.round(Amperes * RecipeTimeAdjuster.getMultiplierByMSPT());
         byte color = getBaseMetaTileEntity().getColorization();
         if (color < 0) {
             return;
         }
-        final ForgeDirection front = aBaseMetaTileEntity.getFrontFacing();
+        final ForgeDirection front = sourceMetaTile.getFrontFacing();
         final ForgeDirection opposite = front.getOpposite();
         for (short dist = 1; dist < 1000; dist++) {
 
-            IGregTechTileEntity tGTTileEntity = aBaseMetaTileEntity
-                .getIGregTechTileEntityAtSideAndDistance(front, dist);
+            IGregTechTileEntity tGTTileEntity = sourceMetaTile.getIGregTechTileEntityAtSideAndDistance(front, dist);
             if (tGTTileEntity != null && tGTTileEntity.getColorization() == color) {
-                IMetaTileEntity aMetaTileEntity = tGTTileEntity.getMetaTileEntity();
-                if (aMetaTileEntity != null) {
-                    if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_EnergyTunnel
+                IMetaTileEntity targetMetaTile = tGTTileEntity.getMetaTileEntity();
+                if (targetMetaTile != null) {
+                    if (targetMetaTile instanceof GT_MetaTileEntity_Hatch_EnergyTunnel
                         && opposite == tGTTileEntity.getFrontFacing()) {
-                        if (maxEUOutput() > ((GT_MetaTileEntity_Hatch_EnergyTunnel) aMetaTileEntity).maxEUInput()) {
-                            aMetaTileEntity.doExplosion(maxEUOutput());
-                            setEUVar(aBaseMetaTileEntity.getStoredEU() - maxEUOutput());
+                        if (maxEUOutput() > ((GT_MetaTileEntity_Hatch_EnergyTunnel) targetMetaTile).maxEUInput()) {
+                            targetMetaTile.doExplosion(maxEUOutput());
+                            setEUVar(sourceMetaTile.getStoredEU() - maxEUOutput());
                             return;
-                        } else if (maxEUOutput()
-                            == ((GT_MetaTileEntity_Hatch_EnergyTunnel) aMetaTileEntity).maxEUInput()) {
+                        } else
+                            if (maxEUOutput() == ((GT_MetaTileEntity_Hatch_EnergyTunnel) targetMetaTile).maxEUInput()) {
                                 long diff = Math.min(
                                     adjustedAmps * 20L * maxEUOutput(),
                                     Math.min(
-                                        ((GT_MetaTileEntity_Hatch_EnergyTunnel) aMetaTileEntity).maxEUStore()
-                                            - aMetaTileEntity.getBaseMetaTileEntity()
+                                        ((GT_MetaTileEntity_Hatch_EnergyTunnel) targetMetaTile).maxEUStore()
+                                            - targetMetaTile.getBaseMetaTileEntity()
                                                 .getStoredEU(),
-                                        aBaseMetaTileEntity.getStoredEU()));
+                                        sourceMetaTile.getStoredEU()));
                                 diff = Math.max(0, diff);
-                                setEUVar(aBaseMetaTileEntity.getStoredEU() - diff);
+                                setEUVar(sourceMetaTile.getStoredEU() - diff);
 
-                                ((GT_MetaTileEntity_Hatch_EnergyTunnel) aMetaTileEntity).setEUVar(
-                                    aMetaTileEntity.getBaseMetaTileEntity()
+                                ((GT_MetaTileEntity_Hatch_EnergyTunnel) targetMetaTile).setEUVar(
+                                    targetMetaTile.getBaseMetaTileEntity()
                                         .getStoredEU() + diff);
                             }
                         return;
-                    } else if (aMetaTileEntity instanceof GT_MetaTileEntity_Pipe_Energy) {
-                        if (((GT_MetaTileEntity_Pipe_Energy) aMetaTileEntity).connectionCount < 2) {
+                    } else if (targetMetaTile instanceof GT_MetaTileEntity_Pipe_Energy) {
+                        if (((GT_MetaTileEntity_Pipe_Energy) targetMetaTile).connectionCount < 2) {
                             return;
                         } else {
-                            ((GT_MetaTileEntity_Pipe_Energy) aMetaTileEntity).markUsed();
+                            ((GT_MetaTileEntity_Pipe_Energy) targetMetaTile).markUsed();
                         }
                     } else {
                         return;
@@ -211,7 +210,7 @@ public class GT_MetaTileEntity_Hatch_DynamoTunnel extends GT_MetaTileEntity_Hatc
                         }
 
                         long ampsUsed = logic.injectEnergy(maxEUOutput(), adjustedAmps);
-                        setEUVar(aBaseMetaTileEntity.getStoredEU() - ampsUsed * maxEUOutput());
+                        setEUVar(sourceMetaTile.getStoredEU() - ampsUsed * maxEUOutput());
                     }
                     return;
                 }

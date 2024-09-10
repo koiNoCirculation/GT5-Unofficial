@@ -39,22 +39,23 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
             new String[] { CommonValues.TEC_MARK_GENERAL, translateToLocal("gt.blockmachines.hatch.energymulti.desc.0"),
                 translateToLocalFormatted("gt.blockmachines.hatch.energymulti.desc.2", aAmp + (aAmp >> 2)),
                 translateToLocalFormatted("gt.blockmachines.hatch.energymulti.desc.3", aAmp) });
-        Amperes = aAmp;
-        TT_Utility.setTier(aTier, this);
-        euStore = (512L + V[mTier] * 4L * Amperes);
-        ampIn = (Amperes + (Amperes >> 2));
+        this.Amperes = aAmp;
     }
 
     public GT_MetaTileEntity_Hatch_EnergyMulti(String aName, int aTier, int aAmp, String[] aDescription,
         ITexture[][][] aTextures) {
         super(aName, aTier, 0, aDescription, aTextures);
         Amperes = aAmp;
+        euStore = (512L + V[mTier] * 4L * aAmp);
+        ampIn = (aAmp + (aAmp >> 2));
     }
 
     public GT_MetaTileEntity_Hatch_EnergyMulti(int aID, String aName, String aNameRegional, int aTier, int i,
         String[] description, int aAmp) {
         super(aID, aName, aNameRegional, aTier, 0, description);
         Amperes = aAmp;
+        euStore = (512L + V[mTier] * 4L * aAmp);
+        ampIn = (aAmp + (aAmp >> 2));
     }
 
     @Override
