@@ -25,6 +25,10 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
 
     public final int Amperes;
 
+    private long euStore;
+
+    private long ampIn;
+
     public GT_MetaTileEntity_Hatch_EnergyMulti(int aID, String aName, String aNameRegional, int aTier, int aAmp) {
         super(
             aID,
@@ -37,6 +41,8 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
                 translateToLocalFormatted("gt.blockmachines.hatch.energymulti.desc.3", aAmp) });
         Amperes = aAmp;
         TT_Utility.setTier(aTier, this);
+        euStore = (512L + V[mTier] * 4L * Amperes);
+        ampIn = (Amperes + (Amperes >> 2));
     }
 
     public GT_MetaTileEntity_Hatch_EnergyMulti(String aName, int aTier, int aAmp, String[] aDescription,
@@ -103,12 +109,12 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
 
     @Override
     public long maxEUStore() {
-        return (long) (RecipeTimeAdjuster.getMultiplierByMSPT() * (512L + V[mTier] * 4L * Amperes));
+        return (long) (RecipeTimeAdjuster.getMultiplierByMSPT() * euStore);
     }
 
     @Override
     public long maxAmperesIn() {
-        return Math.round(RecipeTimeAdjuster.getMultiplierByMSPT() * (Amperes + (Amperes >> 2)));
+        return Math.round(RecipeTimeAdjuster.getMultiplierByMSPT() * ampIn);
     }
 
     @Override

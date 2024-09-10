@@ -30,8 +30,8 @@ public class RecipeTimeAdjuster {
 
     public static double getMultiplierByMSPT() {
         if (ENABLE) {
-            // return 2.0;
-            return 20.0 / loadedTPS;
+            return 1.5;
+            // return 20.0 / loadedTPS;
         } else {
             return 1;
         }

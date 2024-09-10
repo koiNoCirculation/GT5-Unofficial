@@ -781,7 +781,8 @@ public abstract class GT_MetaTileEntity_MultiBlockBase extends MetaTileEntity
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         logic.setAvailableVoltage(getAverageInputVoltage());
         logic.setAvailableAmperage(getMaxInputAmps());
-        logic.setAmperageOC(mEnergyHatches.size() != 1);
+        // allow amp overclock when size > 1 and amps > 2 (now tps is too low)
+        logic.setAmperageOC((mEnergyHatches.size() == 1 && getMaxInputAmps() > 2) || mEnergyHatches.size() > 1);
     }
 
     protected boolean supportsCraftingMEBuffer() {

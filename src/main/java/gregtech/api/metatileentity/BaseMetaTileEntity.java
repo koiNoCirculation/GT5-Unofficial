@@ -1219,13 +1219,13 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
 
     @Override
     public long getStoredEU() {
-        if (canAccessData()) return Math.min(mMetaTileEntity.getEUVar(), getEUCapacity());
+        if (canAccessData()) return mMetaTileEntity.getEUVar();
         return 0;
     }
 
     @Override
     public long getEUCapacity() {
-        if (canAccessData()) return Math.round(mMetaTileEntity.maxEUStore() * RecipeTimeAdjuster.getMultiplierByMSPT());
+        if (canAccessData()) return mMetaTileEntity.maxEUStore();
         return 0;
     }
 

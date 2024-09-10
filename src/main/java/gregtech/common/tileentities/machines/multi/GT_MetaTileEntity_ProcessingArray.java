@@ -265,8 +265,9 @@ public class GT_MetaTileEntity_ProcessingArray extends
 
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
+        //no tps compensation for deprecated machine
         logic.setAvailableVoltage(GT_Values.V[tTier] * (mLastRecipeMap != null ? mLastRecipeMap.getAmperage() : 1));
-        logic.setAvailableAmperage((long) Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT() * getMaxParallel()));
+        logic.setAvailableAmperage(getMaxParallel());
         logic.setAmperageOC(false);
     }
 

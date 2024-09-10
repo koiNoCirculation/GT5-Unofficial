@@ -739,7 +739,7 @@ public class GTMTE_LapotronicSuperCapacitor
             if (eHatch == null || !eHatch.isValid()) {
                 continue;
             }
-            final long ttLaserWattage = eHatch.maxEUInput() * eHatch.Amperes - (eHatch.Amperes / 20);
+            final long ttLaserWattage = eHatch.maxEUInput() * eHatch.maxAmperesIn() - (eHatch.maxAmperesIn() / 20);
             final long power = getPowerToDraw(ttLaserWattage);
             if (eHatch.getEUVar() >= power) {
                 eHatch.setEUVar(eHatch.getEUVar() - power);
@@ -753,7 +753,8 @@ public class GTMTE_LapotronicSuperCapacitor
             if (eDynamo == null || !eDynamo.isValid()) {
                 continue;
             }
-            final long ttLaserWattage = eDynamo.maxEUOutput() * eDynamo.Amperes - (eDynamo.Amperes / 20);
+            final long ttLaserWattage = eDynamo.maxEUOutput() * eDynamo.maxAmperesOut()
+                - (eDynamo.maxAmperesOut() / 20);
             final long power = getPowerToPush(ttLaserWattage);
             if (power <= eDynamo.maxEUStore() - eDynamo.getEUVar()) {
                 eDynamo.setEUVar(eDynamo.getEUVar() + power);
