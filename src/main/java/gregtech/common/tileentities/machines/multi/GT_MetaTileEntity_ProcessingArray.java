@@ -77,7 +77,6 @@ import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_StructureUtility;
 import gregtech.api.util.GT_Utility;
 import gregtech.common.blocks.GT_Item_Machines;
-import gregtech.common.misc.RecipeTimeAdjuster;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 
@@ -265,7 +264,7 @@ public class GT_MetaTileEntity_ProcessingArray extends
 
     @Override
     protected void setProcessingLogicPower(ProcessingLogic logic) {
-        //no tps compensation for deprecated machine
+        // no tps compensation for deprecated machine
         logic.setAvailableVoltage(GT_Values.V[tTier] * (mLastRecipeMap != null ? mLastRecipeMap.getAmperage() : 1));
         logic.setAvailableAmperage(getMaxParallel());
         logic.setAmperageOC(false);
