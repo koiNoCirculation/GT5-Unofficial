@@ -243,7 +243,7 @@ public class GT_OverclockCalculator {
      */
     @Nonnull
     public GT_OverclockCalculator setEUtDiscount(float aEUtDiscount) {
-        this.eutDiscount = aEUtDiscount;
+        this.eutDiscount = aEUtDiscount * RecipeTimeAdjuster.getMultiplierByMSPT();;
         return this;
     }
 
