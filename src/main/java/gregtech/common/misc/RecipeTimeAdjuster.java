@@ -78,7 +78,7 @@ public class RecipeTimeAdjuster {
     public static void updateMSPT() {
         if (!ENABLE) return;
         int tickCounter = MinecraftServer.getServer()
-            .getTickCounter() - 1;
+            .getTickCounter();
         long tickTime = MinecraftServer.getServer().tickTimeArray[tickCounter % 100];
         int idx = tickCounter % DURATION;
         ticktimeSum = ticktimeSum + Math.max((tickTime / 1000000.0 - tickTimeArray[(idx + 1) % DURATION]), 0);

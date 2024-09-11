@@ -62,6 +62,7 @@ import gregtech.api.recipe.check.CheckRecipeResult;
 import gregtech.api.recipe.check.CheckRecipeResultRegistry;
 import gregtech.api.render.TextureFactory;
 import gregtech.api.util.GT_HatchElementBuilder;
+import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_OverclockCalculator;
 import gregtech.api.util.GT_ParallelHelper;
 import gregtech.api.util.GT_Recipe;
@@ -456,6 +457,10 @@ public abstract class LargeFusionComputer extends GT_MetaTileEntity_TooltipMulti
                         return CheckRecipeResultRegistry.insufficientStartupPower(recipe.mSpecialValue);
                     }
                     if (recipe.mEUt > GT_Values.V[tier()]) {
+                        GT_Log.out.printf(
+                            "Fusion - insufficient power level - %d EU/t, fusion level is %d\n",
+                            recipe.mEUt,
+                            GT_Values.V[tier()]);
                         return CheckRecipeResultRegistry.insufficientPower(recipe.mEUt);
                     }
                 }
