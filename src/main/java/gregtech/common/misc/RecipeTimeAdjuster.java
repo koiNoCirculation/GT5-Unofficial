@@ -37,11 +37,11 @@ public class RecipeTimeAdjuster {
         ENABLE = GregTech_API.sSpecialFile.get(ConfigCategories.general, "AdjustRecipeByTPS", false);
         if (ENABLE) {
             tickTimeArray = new double[DURATION];
-            Arrays.fill(tickTimeArray, 0);
-            loadTickTimeArray();
             tpsFile = new File(
                 GT_Config.sConfigFileIDs.getConfigFile()
                     .getParent() + File.separator + "tps_rec.txt");
+            Arrays.fill(tickTimeArray, 0);
+            loadTickTimeArray();
             GT_Log.out.println("Enable adjusting recipes by tps: " + ENABLE);
             for (double l : tickTimeArray) {
                 ticktimeSum += l;
