@@ -87,7 +87,7 @@ public class RecipeTimeAdjuster {
             .getTickCounter();
         long tickTime = MinecraftServer.getServer().tickTimeArray[tickCounter % 100];
         int idx = tickCounter % DURATION;
-        ticktimeSum = ticktimeSum + Math.max((tickTime / 1000000.0 - tickTimeArray[(idx + 1) % DURATION]), 0);
+        ticktimeSum = ticktimeSum + Math.max((tickTime / 1000000.0 - tickTimeArray[(tickCounter + 1) % DURATION]), 0);
         tickTimeArray[idx] = tickTime / 1000000.0;
         multiplier = 20 / Math.min(1000 * DURATION / ticktimeSum, 20);
     }
