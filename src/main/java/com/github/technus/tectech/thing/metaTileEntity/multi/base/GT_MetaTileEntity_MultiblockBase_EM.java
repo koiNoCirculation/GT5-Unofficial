@@ -26,7 +26,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -107,6 +106,7 @@ import gregtech.api.util.shutdown.ShutDownReason;
 import gregtech.api.util.shutdown.ShutDownReasonRegistry;
 import gregtech.api.util.shutdown.SimpleShutDownReason;
 import gregtech.common.GT_Pollution;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gregtech.common.tileentities.machines.IDualInputHatch;
 
 /**
@@ -1122,7 +1122,7 @@ public abstract class GT_MetaTileEntity_MultiblockBase_EM
             if (mStartUpCheck < 0) { // E
                 if (mMachine) { // S
                     double mul = RecipeTimeAdjuster.getMultiplierByMSPT();
-                    if(mul != lastMultiplierByMSPT) {
+                    if (mul != lastMultiplierByMSPT) {
                         setupEnergyHatchesVariables_EM();
                         lastMultiplierByMSPT = mul;
                     }

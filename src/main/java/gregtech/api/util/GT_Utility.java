@@ -498,7 +498,7 @@ public class GT_Utility {
             .ordinal();
     }
 
-    public static byte getTier(long l) {
+    public static byte getTier(double l) {
         byte i = -1;
         while (++i < V.length) if (l <= V[i]) return i;
         return (byte) (V.length - 1);

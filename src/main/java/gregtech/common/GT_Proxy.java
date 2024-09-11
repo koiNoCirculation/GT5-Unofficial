@@ -2231,7 +2231,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
 
             // Making sure it is being freed up in order to prevent exploits or Garbage Collection mishaps.
             LAST_BROKEN_TILEENTITY.set(null);
-            RecipeTimeAdjuster.updateTickTimeArray();
+            RecipeTimeAdjuster.updateMSPT();
         }
     }
 
@@ -2323,7 +2323,6 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
             }
 
             GT_Pollution.onWorldTick(aEvent);
-            RecipeTimeAdjuster.updateMSPT();
         }
     }
 

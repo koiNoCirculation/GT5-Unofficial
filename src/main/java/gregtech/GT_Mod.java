@@ -818,6 +818,7 @@ public class GT_Mod implements IGT_Mod {
         }
         // Interrupt IDLE Threads to close down cleanly
         GT_Runnable_MachineBlockUpdate.shutdownExecutorService();
+        RecipeTimeAdjuster.saveTickTimeArray();
     }
 
     public static void logStackTrace(Throwable t) {

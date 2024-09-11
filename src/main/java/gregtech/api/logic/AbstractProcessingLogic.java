@@ -30,7 +30,7 @@ public abstract class AbstractProcessingLogic<P extends AbstractProcessingLogic<
     protected long calculatedEut;
     protected int duration;
     protected long availableVoltage;
-    protected long availableAmperage;
+    protected double availableAmperage;
     protected double overClockTimeReduction = 2.0;
     protected double overClockPowerIncrease = 4.0;
     protected boolean protectItems;
@@ -148,7 +148,7 @@ public abstract class AbstractProcessingLogic<P extends AbstractProcessingLogic<
      * Sets amperage of the machine. This amperage doesn't involve in EU/t when searching recipemap.
      * Useful for preventing tier skip but still considering amperage for parallel.
      */
-    public P setAvailableAmperage(long amperage) {
+    public P setAvailableAmperage(double amperage) {
         availableAmperage = amperage;
         return getThis();
     }
@@ -299,7 +299,7 @@ public abstract class AbstractProcessingLogic<P extends AbstractProcessingLogic<
     @Nonnull
     protected GT_OverclockCalculator createOverclockCalculator(@Nonnull GT_Recipe recipe) {
         return new GT_OverclockCalculator().setRecipeEUt(recipe.mEUt)
-            .setAmperage((long) Math.ceil(availableAmperage))
+            .setAmperage(availableAmperage)
             .setEUt(availableVoltage)
             .setDuration(recipe.mDuration)
             .setSpeedBoost(speedBoost)

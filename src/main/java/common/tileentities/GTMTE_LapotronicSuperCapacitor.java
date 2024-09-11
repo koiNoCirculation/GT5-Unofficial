@@ -26,7 +26,6 @@ import static java.lang.Math.min;
 import static util.Util.toPercentageFrom;
 import static util.Util.toStandardForm;
 
-import java.awt.*;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.ArrayList;

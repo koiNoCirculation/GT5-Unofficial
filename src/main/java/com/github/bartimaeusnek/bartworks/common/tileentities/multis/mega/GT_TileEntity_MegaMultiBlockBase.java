@@ -163,7 +163,7 @@ public abstract class GT_TileEntity_MegaMultiBlockBase<T extends GT_TileEntity_M
     protected void setProcessingLogicPower(ProcessingLogic logic) {
         // avoid unexpected side effect
         logic.setAvailableVoltage(Math.round(this.getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT()));
-        logic.setAvailableAmperage((long) Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
+        logic.setAvailableAmperage(RecipeTimeAdjuster.getMultiplierByMSPT());
     }
 
     protected static class StructureElementAirNoHint<T> implements IStructureElement<T> {

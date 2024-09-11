@@ -226,7 +226,7 @@ public class GT_ParallelHelper {
      */
     @Nonnull
     public GT_ParallelHelper setEUtModifier(float aEUtModifier) {
-        this.eutModifier = aEUtModifier;
+        this.eutModifier = (float) (aEUtModifier * RecipeTimeAdjuster.getMultiplierByMSPT());
         return this;
     }
 
@@ -467,23 +467,6 @@ public class GT_ParallelHelper {
             result = CheckRecipeResultRegistry.insufficientPower(tRecipeEUt);
             return;
         }
-        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
-        int scaledProgressTime = Math.max(1, (int) Math.ceil(recipe.mDuration / multiplierByMSPT));
-        calculator.setDuration(scaledProgressTime);
-
-        if (scaledProgressTime > 1) {
-            calculator.setEUtDiscount((float) (eutModifier * multiplierByMSPT));
-        } else {
-            calculator.setEUtDiscount(eutModifier * recipe.mDuration);
-            // when recipe time is 1 tick after applying modifier
-            // extra parallelism
-            maxParallel = (int) Math.round(maxParallel * multiplierByMSPT / recipe.mDuration);
-        }
-        /*
-         * if (scaledProgressTime <= 1) {
-         * maxParallel = (int) Math.round(maxParallel * multiplierByMSPT / recipe.mDuration);
-         * }
-         */
         // Save the original max parallel before calculating our overclocking under 1 tick
         int originalMaxParallel = maxParallel;
         double tickTimeAfterOC = calculator.setParallel(originalMaxParallel)

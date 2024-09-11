@@ -156,7 +156,9 @@ public class GT_MetaTileEntity_Wireless_Hatch extends GT_MetaTileEntity_Hatch_En
     private void tryFetchingEnergy() {
         long currentEU = getBaseMetaTileEntity().getStoredEU();
         long maxEU = maxEUStore();
-        long euToTransfer = min(maxEU - currentEU, eu_transferred_per_operation_long);
+        long euToTransfer = min(
+            maxEU - currentEU,
+            Math.round(eu_transferred_per_operation_long * RecipeTimeAdjuster.getMultiplierByMSPT()));
         if (euToTransfer <= 0) return; // nothing to transfer
         if (!addEUToGlobalEnergyMap(owner_uuid, -euToTransfer)) return;
         setEUVar(currentEU + euToTransfer);

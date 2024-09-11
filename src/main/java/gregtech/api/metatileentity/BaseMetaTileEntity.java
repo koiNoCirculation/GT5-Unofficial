@@ -2048,15 +2048,16 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
             doExplosion(aVoltage);
             return 0;
         }
-        double usedAmpere = Math.round(Math.min(
-            aAmperage,
+        double usedAmpere = Math.round(
             Math.min(
-                ampereAdjustedBytps - mAcceptedAmperes,
-                1 + ((getEUCapacity() - getStoredEU()) / (double) aVoltage))));
+                aAmperage,
+                Math.min(
+                    ampereAdjustedBytps - mAcceptedAmperes,
+                    1 + ((getEUCapacity() - getStoredEU()) / (double) aVoltage))));
         if (increaseStoredEnergyUnits(Math.round(aVoltage * usedAmpere), true)) {
             mAverageEUInput[mAverageEUInputIndex] += aVoltage * usedAmpere;
             mAcceptedAmperes += usedAmpere;
-            return (long)usedAmpere;
+            return (long) usedAmpere;
         }
         return 0;
     }

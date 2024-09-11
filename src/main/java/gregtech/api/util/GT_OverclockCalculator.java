@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 
 import gregtech.api.enums.GT_Values;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 public class GT_OverclockCalculator {
 
@@ -17,7 +18,7 @@ public class GT_OverclockCalculator {
     /*
      * The amount of amps the recipe needs
      */
-    private long recipeAmperage = 1;
+    private double recipeAmperage = 1;
     /**
      * Voltage of the machine
      */
@@ -25,7 +26,7 @@ public class GT_OverclockCalculator {
     /**
      * Amperage of the machine
      */
-    private long machineAmperage = 1;
+    private double machineAmperage = 1;
     /**
      * Duration of the recipe
      */
@@ -178,7 +179,7 @@ public class GT_OverclockCalculator {
      * @param machineAmperage Sets the Amperage that the machine can support
      */
     @Nonnull
-    public GT_OverclockCalculator setAmperage(long machineAmperage) {
+    public GT_OverclockCalculator setAmperage(double machineAmperage) {
         this.machineAmperage = machineAmperage;
         return this;
     }
@@ -187,7 +188,7 @@ public class GT_OverclockCalculator {
      * @param recipeAmperage Sets the Amperage of the recipe
      */
     @Nonnull
-    public GT_OverclockCalculator setRecipeAmperage(long recipeAmperage) {
+    public GT_OverclockCalculator setRecipeAmperage(double recipeAmperage) {
         this.recipeAmperage = recipeAmperage;
         return this;
     }
@@ -251,7 +252,7 @@ public class GT_OverclockCalculator {
      */
     @Nonnull
     public GT_OverclockCalculator setSpeedBoost(float aSpeedBoost) {
-        this.speedBoost = aSpeedBoost;
+        this.speedBoost = aSpeedBoost / RecipeTimeAdjuster.getMultiplierByMSPT();
         return this;
     }
 
@@ -505,7 +506,7 @@ public class GT_OverclockCalculator {
     }
 
     private void calculateLaserOC() {
-        long inputEut = machineVoltage * machineAmperage;
+        double inputEut = machineVoltage * machineAmperage;
         double currentPenalty = eutIncreasePerOC + laserOCPenalty;
         while (inputEut > recipeVoltage * currentPenalty && recipeVoltage * currentPenalty > 0 && duration > 1) {
             duration /= durationDecreasePerOC;
