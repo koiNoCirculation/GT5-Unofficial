@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -208,6 +209,8 @@ public abstract class GT_MetaTileEntity_MultiblockBase_EM
 
     /** Flag if the new long power variable should be used */
     protected boolean useLongPower = false;
+
+    static double lastMultiplierByMSPT = 1;
 
     // Locale-aware formatting of numbers.
     protected static NumberFormatMUI numberFormat;
@@ -1118,6 +1121,11 @@ public abstract class GT_MetaTileEntity_MultiblockBase_EM
 
             if (mStartUpCheck < 0) { // E
                 if (mMachine) { // S
+                    double mul = RecipeTimeAdjuster.getMultiplierByMSPT();
+                    if(mul != lastMultiplierByMSPT) {
+                        setupEnergyHatchesVariables_EM();
+                        lastMultiplierByMSPT = mul;
+                    }
                     byte Tick = (byte) (aTick % 20);
                     if (MULTI_CHECK_AT == Tick) {
                         checkMaintenance();
