@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.github.technus.tectech.util.CommonValues;
-import com.github.technus.tectech.util.TT_Utility;
 
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
@@ -26,8 +25,6 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
     public final int Amperes;
 
     private long euStore;
-
-    private long ampIn;
 
     public GT_MetaTileEntity_Hatch_EnergyMulti(int aID, String aName, String aNameRegional, int aTier, int aAmp) {
         super(
@@ -47,7 +44,6 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
         super(aName, aTier, 0, aDescription, aTextures);
         Amperes = aAmp;
         euStore = (512L + V[mTier] * 4L * aAmp);
-        ampIn = (aAmp + (aAmp >> 2));
     }
 
     public GT_MetaTileEntity_Hatch_EnergyMulti(int aID, String aName, String aNameRegional, int aTier, int i,
@@ -55,7 +51,6 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
         super(aID, aName, aNameRegional, aTier, 0, description);
         Amperes = aAmp;
         euStore = (512L + V[mTier] * 4L * aAmp);
-        ampIn = (aAmp + (aAmp >> 2));
     }
 
     @Override
@@ -115,13 +110,13 @@ public class GT_MetaTileEntity_Hatch_EnergyMulti extends GT_MetaTileEntity_Hatch
 
     @Override
     public long maxAmperesIn() {
-        return Math.round(RecipeTimeAdjuster.getMultiplierByMSPT() * ampIn);
+        return Math.round(RecipeTimeAdjuster.getMultiplierByMSPT() * Amperes);
     }
 
     @Override
     public long maxWorkingAmperesIn() {
-        return Math.round(RecipeTimeAdjuster.getMultiplierByMSPT() * Amperes);
-    }
+        return maxAmperesIn();
+    };
 
     @Override
     public MetaTileEntity newMetaEntity(IGregTechTileEntity aTileEntity) {

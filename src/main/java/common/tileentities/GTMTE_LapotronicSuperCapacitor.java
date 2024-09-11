@@ -40,7 +40,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -93,6 +92,7 @@ import gregtech.api.render.TextureFactory;
 import gregtech.api.util.GT_Multiblock_Tooltip_Builder;
 import gregtech.api.util.GT_Utility;
 import gregtech.api.util.IGT_HatchAdder;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gregtech.common.misc.WirelessNetworkManager;
 
 public class GTMTE_LapotronicSuperCapacitor
@@ -345,7 +345,7 @@ public class GTMTE_LapotronicSuperCapacitor
     }
 
     private void refreshVoltage() {
-        //prevent explosion
+        // prevent explosion
         mMaxEUIn = 0;
         mMaxEUOut = 0;
         for (GT_MetaTileEntity_Hatch_Energy hatch : mEnergyHatches) {
@@ -698,9 +698,9 @@ public class GTMTE_LapotronicSuperCapacitor
 
     @Override
     public boolean onRunningTick(ItemStack stack) {
-        //refresh, due to auto adjust by tps
+        // refresh, due to auto adjust by tps
         double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
-        if(multiplierByMSPT != lastMSPTMultiplier) {
+        if (multiplierByMSPT != lastMSPTMultiplier) {
             refreshVoltage();
             lastMSPTMultiplier = multiplierByMSPT;
         }

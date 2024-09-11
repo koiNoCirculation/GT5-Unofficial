@@ -11,6 +11,7 @@ import gregtech.api.interfaces.metatileentity.IMetaTileEntityCable;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import ic2.api.energy.tile.IEnergySink;
 
 public class TileIC2EnergySink extends TileEntity implements IEnergySink {
@@ -51,7 +52,7 @@ public class TileIC2EnergySink extends TileEntity implements IEnergySink {
              * and one of them is a GT cable that doesn't have anywhere to send its energy, the distribution will be a
              * bit weird. In that case, use only one cable or a transformer.
              */
-            return (cableMeta.mVoltage * cableMeta.mAmperage);
+            return (cableMeta.mVoltage * Math.ceil(cableMeta.mAmperage * RecipeTimeAdjuster.getMultiplierByMSPT()));
         } else return myMeta.getEUCapacity() - myMeta.getStoredEU();
     }
 

@@ -1379,9 +1379,9 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
             Throwable throwable = new Throwable();
             throwable.fillInStackTrace();
             throwable.printStackTrace(GT_Log.exp);
-             doExplosion(
-             oOutput * (getUniversalEnergyStored() >= getUniversalEnergyCapacity() ? 4
-             : getUniversalEnergyStored() >= getUniversalEnergyCapacity() / 2 ? 2 : 1));
+            doExplosion(
+                oOutput * (getUniversalEnergyStored() >= getUniversalEnergyCapacity() ? 4
+                    : getUniversalEnergyStored() >= getUniversalEnergyCapacity() / 2 ? 2 : 1));
             GT_Mod.achievements.issueAchievement(
                 this.getWorldObj()
                     .getPlayerEntityByName(mOwnerName),
@@ -2048,15 +2048,15 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
             doExplosion(aVoltage);
             return 0;
         }
-        double usedAmpere = Math.min(
+        double usedAmpere = Math.round(Math.min(
             aAmperage,
             Math.min(
                 ampereAdjustedBytps - mAcceptedAmperes,
-                1 + ((getEUCapacity() - getStoredEU()) / (double) aVoltage)));
+                1 + ((getEUCapacity() - getStoredEU()) / (double) aVoltage))));
         if (increaseStoredEnergyUnits(Math.round(aVoltage * usedAmpere), true)) {
             mAverageEUInput[mAverageEUInputIndex] += aVoltage * usedAmpere;
-            mAcceptedAmperes += Math.round(usedAmpere);
-            return mAcceptedAmperes;
+            mAcceptedAmperes += usedAmpere;
+            return (long)usedAmpere;
         }
         return 0;
     }

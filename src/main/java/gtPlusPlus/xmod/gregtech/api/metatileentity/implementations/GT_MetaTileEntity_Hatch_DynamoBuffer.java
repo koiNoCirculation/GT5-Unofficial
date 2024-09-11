@@ -58,7 +58,7 @@ public class GT_MetaTileEntity_Hatch_DynamoBuffer extends GT_MetaTileEntity_Hatc
 
     @Override
     public long maxAmperesIn() {
-        return Math.round(4 * RecipeTimeAdjuster.getMultiplierByMSPT());
+        return 4;
     }
 
     @Override

@@ -39,7 +39,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -91,6 +90,7 @@ import gregtech.api.util.GT_Multiblock_Tooltip_Builder;
 import gregtech.api.util.GT_OverclockCalculator;
 import gregtech.api.util.GT_Recipe;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.misc.RecipeTimeAdjuster;
 
 public class GT_TileEntity_ElectricImplosionCompressor
     extends GT_MetaTileEntity_ExtendedPowerMultiBlockBase<GT_TileEntity_ElectricImplosionCompressor>
@@ -313,9 +313,11 @@ public class GT_TileEntity_ElectricImplosionCompressor
             protected GT_OverclockCalculator createOverclockCalculator(@NotNull GT_Recipe recipe) {
                 // For overclocking we'll allow all power to be used
                 return super.createOverclockCalculator(recipe)
-                    .setEUt(Math.round(GT_TileEntity_ElectricImplosionCompressor.this.getMaxInputEu()
-                        / RecipeTimeAdjuster.getMultiplierByMSPT()))
-                    .setAmperage((long)Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
+                    .setEUt(
+                        Math.round(
+                            GT_TileEntity_ElectricImplosionCompressor.this.getMaxInputEu()
+                                / RecipeTimeAdjuster.getMultiplierByMSPT()))
+                    .setAmperage((long) Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
             }
         }.setMaxParallelSupplier(() -> (int) Math.pow(4, Math.max(this.mBlockTier - 1, 0)));
     }

@@ -563,6 +563,13 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
 
     @Override
     public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
+        try {
+            if (!getBaseMetaTileEntity().isClientSide()) {
+                Thread.sleep(25);
+            }
+        } catch (Exception e) {
+
+        }
         super.onPostTick(aBaseMetaTileEntity, aTick);
 
         if (aBaseMetaTileEntity.isServerSide()) {

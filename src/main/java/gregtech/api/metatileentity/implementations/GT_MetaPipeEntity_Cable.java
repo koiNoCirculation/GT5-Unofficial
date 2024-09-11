@@ -58,6 +58,7 @@ import gregtech.api.util.ISerializableObject;
 import gregtech.common.GT_Client;
 import gregtech.common.covers.CoverInfo;
 import gregtech.common.covers.GT_Cover_SolarPanel;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import ic2.api.energy.EnergyNet;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
@@ -227,7 +228,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
 
     @Override
     public int maxProgresstime() {
-        return (int) mAmperage * 64;
+        return (int) Math.ceil(mAmperage * RecipeTimeAdjuster.getMultiplierByMSPT()) * 64;
     }
 
     @Override
@@ -441,7 +442,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
                 + EnumChatFormatting.GRAY,
             StatCollector.translateToLocal("GT5U.item.cable.max_amperage") + ": %%%"
                 + EnumChatFormatting.YELLOW
-                + GT_Utility.formatNumbers(mAmperage)
+                + GT_Utility.formatNumbers(Math.ceil(mAmperage * RecipeTimeAdjuster.getMultiplierByMSPT()))
                 + EnumChatFormatting.GRAY,
             StatCollector.translateToLocal("GT5U.item.cable.loss") + ": %%%"
                 + EnumChatFormatting.RED
@@ -488,7 +489,9 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
         final double avgAmp = path.getAvgAmperage();
         final double avgVoltage = path.getAvgVoltage();
 
-        final long maxVoltageOut = (mVoltage - mCableLossPerMeter) * mAmperage;
+        long adjustedAmperageByMSPT = (long) Math.ceil(mAmperage * RecipeTimeAdjuster.getMultiplierByMSPT());
+
+        final long maxVoltageOut = (mVoltage - mCableLossPerMeter) * adjustedAmperageByMSPT;
 
         return new String[] {
             "Heat: " + EnumChatFormatting.RED
@@ -503,7 +506,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
                 + EnumChatFormatting.RESET
                 + " / "
                 + EnumChatFormatting.YELLOW
-                + GT_Utility.formatNumbers(mAmperage)
+                + GT_Utility.formatNumbers(adjustedAmperageByMSPT)
                 + EnumChatFormatting.RESET
                 + " A",
             "Voltage Out: " + EnumChatFormatting.GREEN
@@ -667,7 +670,7 @@ public class GT_MetaPipeEntity_Cable extends MetaPipeEntity implements IMetaTile
         currenttip.add(
             StatCollector.translateToLocal("GT5U.item.cable.max_amperage") + ": "
                 + EnumChatFormatting.YELLOW
-                + GT_Utility.formatNumbers(mAmperage));
+                + GT_Utility.formatNumbers(Math.ceil(mAmperage * RecipeTimeAdjuster.getMultiplierByMSPT())));
         currenttip.add(
             StatCollector.translateToLocal("GT5U.item.cable.loss") + ": "
                 + EnumChatFormatting.RED
