@@ -26,6 +26,7 @@ import static java.lang.Math.min;
 import static util.Util.toPercentageFrom;
 import static util.Util.toStandardForm;
 
+import java.awt.*;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -115,6 +117,8 @@ public class GTMTE_LapotronicSuperCapacitor
     private final long max_passive_drain_eu_per_tick_per_uev_cap = 100_000_000;
     private final long max_passive_drain_eu_per_tick_per_uiv_cap = (long) Math.pow(10, 10);
     private final long max_passive_drain_eu_per_tick_per_umv_cap = (long) Math.pow(10, 12);
+
+    private double lastMSPTMultiplier = 1.0;
 
     private enum Capacitor {
 
@@ -338,6 +342,24 @@ public class GTMTE_LapotronicSuperCapacitor
     private void processOutputHatch(GT_MetaTileEntity_Hatch aHatch, int aBaseCasingIndex) {
         mMaxEUOut += aHatch.maxEUOutput() * aHatch.maxAmperesOut();
         aHatch.updateTexture(aBaseCasingIndex);
+    }
+
+    private void refreshVoltage() {
+        //prevent explosion
+        mMaxEUIn = 0;
+        mMaxEUOut = 0;
+        for (GT_MetaTileEntity_Hatch_Energy hatch : mEnergyHatches) {
+            mMaxEUIn += hatch.maxEUInput() * hatch.maxAmperesIn();
+        }
+        for (GT_MetaTileEntity_Hatch_EnergyMulti hatch : mEnergyHatchesTT) {
+            mMaxEUIn += hatch.maxEUInput() * hatch.maxAmperesIn();
+        }
+        for (GT_MetaTileEntity_Hatch_DynamoMulti hatch : mDynamoHatchesTT) {
+            mMaxEUOut += hatch.maxEUInput() * hatch.maxAmperesIn();
+        }
+        for (GT_MetaTileEntity_Hatch_Dynamo hatch : mDynamoHatches) {
+            mMaxEUOut += hatch.maxEUInput() * hatch.maxAmperesIn();
+        }
     }
 
     private boolean addBottomHatches(IGregTechTileEntity aTileEntity, int aBaseCasingIndex) {
@@ -676,6 +698,13 @@ public class GTMTE_LapotronicSuperCapacitor
 
     @Override
     public boolean onRunningTick(ItemStack stack) {
+        //refresh, due to auto adjust by tps
+        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
+        if(multiplierByMSPT != lastMSPTMultiplier) {
+            refreshVoltage();
+            lastMSPTMultiplier = multiplierByMSPT;
+        }
+
         // Reset I/O cache
         inputLastTick = 0;
         outputLastTick = 0;

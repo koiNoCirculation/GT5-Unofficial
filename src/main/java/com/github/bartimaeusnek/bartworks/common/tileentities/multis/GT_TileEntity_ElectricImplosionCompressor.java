@@ -39,6 +39,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -312,8 +313,9 @@ public class GT_TileEntity_ElectricImplosionCompressor
             protected GT_OverclockCalculator createOverclockCalculator(@NotNull GT_Recipe recipe) {
                 // For overclocking we'll allow all power to be used
                 return super.createOverclockCalculator(recipe)
-                    .setEUt(GT_TileEntity_ElectricImplosionCompressor.this.getMaxInputEu())
-                    .setAmperage(1);
+                    .setEUt(Math.round(GT_TileEntity_ElectricImplosionCompressor.this.getMaxInputEu()
+                        / RecipeTimeAdjuster.getMultiplierByMSPT()))
+                    .setAmperage((long)Math.ceil(RecipeTimeAdjuster.getMultiplierByMSPT()));
             }
         }.setMaxParallelSupplier(() -> (int) Math.pow(4, Math.max(this.mBlockTier - 1, 0)));
     }

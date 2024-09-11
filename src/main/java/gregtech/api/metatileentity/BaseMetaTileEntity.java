@@ -428,7 +428,9 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
                         if (getEUCapacity() > 0) {
                             if (GregTech_API.sMachineFireExplosions && getRandomNumber(1000) == 0) {
                                 final Block tBlock = getBlockAtSide(ForgeDirection.getOrientation(getRandomNumber(6)));
-                                if (tBlock instanceof BlockFire) doEnergyExplosion();
+                                if (tBlock instanceof BlockFire) {
+                                    doEnergyExplosion();
+                                }
                             }
 
                             if (!hasValidMetaTileEntity()) {
@@ -1365,14 +1367,21 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
     public void doEnergyExplosion() {
         if (getUniversalEnergyCapacity() > 0 && getUniversalEnergyStored() >= getUniversalEnergyCapacity() / 5) {
             GT_Log.exp.println(
-                "Energy Explosion, injected " + getUniversalEnergyStored()
+                "Energy Explosion, Stored " + getUniversalEnergyStored()
                     + "EU >= "
                     + getUniversalEnergyCapacity() / 5D
-                    + "Capacity of the Machine!");
-
-            doExplosion(
-                oOutput * (getUniversalEnergyStored() >= getUniversalEnergyCapacity() ? 4
-                    : getUniversalEnergyStored() >= getUniversalEnergyCapacity() / 2 ? 2 : 1));
+                    + ", which is 20% of the capacity of the Machine!");
+            GT_Log.exp.println(
+                String.format("Location: %d, %d, %d @ %d", xCoord, yCoord, zCoord, worldObj.provider.dimensionId));
+            GT_Log.exp.println(
+                "Machine type: " + getMetaTileEntity().getClass()
+                    .getName());
+            Throwable throwable = new Throwable();
+            throwable.fillInStackTrace();
+            throwable.printStackTrace(GT_Log.exp);
+             doExplosion(
+             oOutput * (getUniversalEnergyStored() >= getUniversalEnergyCapacity() ? 4
+             : getUniversalEnergyStored() >= getUniversalEnergyCapacity() / 2 ? 2 : 1));
             GT_Mod.achievements.issueAchievement(
                 this.getWorldObj()
                     .getPlayerEntityByName(mOwnerName),
@@ -2034,6 +2043,8 @@ public class BaseMetaTileEntity extends CommonMetaTileEntity
         if (aVoltage > getInputVoltage()) {
             GT_Log.exp
                 .println("Energy Explosion, injected " + aVoltage + "EU/t in a " + getInputVoltage() + "EU/t Machine!");
+            GT_Log.exp.println(
+                String.format("Location: %d, %d, %d @ %d", xCoord, yCoord, zCoord, worldObj.provider.dimensionId));
             doExplosion(aVoltage);
             return 0;
         }

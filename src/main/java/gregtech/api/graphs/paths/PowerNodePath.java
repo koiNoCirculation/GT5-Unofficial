@@ -1,6 +1,5 @@
 package gregtech.api.graphs.paths;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 
 import gregtech.api.enums.TickTime;
@@ -8,6 +7,7 @@ import gregtech.api.metatileentity.BaseMetaPipeEntity;
 import gregtech.api.metatileentity.MetaPipeEntity;
 import gregtech.api.metatileentity.implementations.GT_MetaPipeEntity_Cable;
 import gregtech.api.util.AveragePerTickCounter;
+import gregtech.api.util.GT_Log;
 import gregtech.common.misc.RecipeTimeAdjuster;
 
 // path for cables
@@ -36,12 +36,12 @@ public class PowerNodePath extends NodePath {
     }
 
     public void applyVoltage(long aVoltage, boolean aCountUp) {
-
+        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
         avgVoltageCounter.addValue(Math.max(aVoltage - mLoss, 0));
 
         int tNewTime = MinecraftServer.getServer()
             .getTickCounter();
-        if (mTick != tNewTime) {
+        if (mTick != tNewTime || multiplierByMSPT != lastMsptMultiplier) {
             reset(tNewTime - mTick);
             mTick = tNewTime;
             this.mVoltage = aVoltage;
@@ -56,42 +56,55 @@ public class PowerNodePath extends NodePath {
                 if (((GT_MetaPipeEntity_Cable) tCable).mVoltage < this.mVoltage) {
                     BaseMetaPipeEntity tBaseCable = (BaseMetaPipeEntity) tCable.getBaseMetaTileEntity();
                     if (tBaseCable != null) {
+                        GT_Log.exp.println(
+                            String.format(
+                                "Cable at %d, %d, %d burned, maxVolt = %d, inputVolt = %d",
+                                tBaseCable.xCoord,
+                                tBaseCable.yCoord,
+                                tBaseCable.zCoord,
+                                mMaxVoltage,
+                                aVoltage));
                         tBaseCable.setToFire();
                     }
                 }
             }
         }
+        lastMsptMultiplier = multiplierByMSPT;
     }
 
     private void reset(int aTimePassed) {
         double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
-        //when multiplier change, reset mAmps to 0 to avoid accidental cable burn
-        if(multiplierByMSPT != lastMsptMultiplier) {
-            mAmps = 0;
-            lastMsptMultiplier = multiplierByMSPT;
-            return;
-        }
-        if (aTimePassed < 0 || aTimePassed > 100) {
+        // when multiplier change, reset mAmps to 0 to avoid accidental cable burn
+        if (aTimePassed < 0 || aTimePassed > 100 || multiplierByMSPT != lastMsptMultiplier) {
             mAmps = 0;
             return;
         }
-        mAmps = Math.max(0, mAmps - (mMaxAmps * aTimePassed));
+        long maxAmpAdjusted = (long) Math.ceil(mMaxAmps * multiplierByMSPT);
+        mAmps = Math.max(0, mAmps - (maxAmpAdjusted * aTimePassed));
     }
 
     public void addAmps(long aAmps) {
-
+        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
+        long maxAmpAdjusted = (long) Math.ceil(mMaxAmps * multiplierByMSPT);
         avgAmperageCounter.addValue(aAmps);
 
         this.mAmps += aAmps;
-        if (this.mAmps > mMaxAmps * 40) {
+        if (this.mAmps > maxAmpAdjusted * 40) {
             lock.addTileEntity(null);
             for (MetaPipeEntity tCable : mPipes) {
-                if (((GT_MetaPipeEntity_Cable) tCable).mAmperage * 40 < this.mAmps) {
+                if (((GT_MetaPipeEntity_Cable) tCable).mAmperage * multiplierByMSPT * 40 < this.mAmps) {
                     BaseMetaPipeEntity tBaseCable = (BaseMetaPipeEntity) tCable.getBaseMetaTileEntity();
                     if (tBaseCable != null) {
                         tBaseCable.setToFire();
-                        //tBaseCable.getWorld()
-                        //    .setBlock(tBaseCable.xCoord, tBaseCable.yCoord , tBaseCable.zCoord, Blocks.air);
+                        GT_Log.exp.println(
+                            String.format(
+                                "Cable at %d, %d, %d burned, maxAmp = %d, inputAmp = %d, cumulatedAmp = %d",
+                                tBaseCable.xCoord,
+                                tBaseCable.yCoord,
+                                tBaseCable.zCoord,
+                                maxAmpAdjusted,
+                                aAmps,
+                                mAmps));
                     }
                 }
             }
@@ -102,12 +115,14 @@ public class PowerNodePath extends NodePath {
     // but still allow the player to see if activity is happening
     @Deprecated
     public long getAmps() {
+        double multiplierByMSPT = RecipeTimeAdjuster.getMultiplierByMSPT();
         int tTime = MinecraftServer.getServer()
             .getTickCounter() - 10;
-        if (mTick < tTime) {
+        if (mTick < tTime || multiplierByMSPT != lastMsptMultiplier) {
             reset(tTime - mTick);
             mTick = tTime;
         }
+        lastMsptMultiplier = multiplierByMSPT;
         return mAmps;
     }
 
@@ -152,14 +167,12 @@ public class PowerNodePath extends NodePath {
 
     @Override
     protected void processPipes() {
-        double ampMultiplier = RecipeTimeAdjuster.getMultiplierByMSPT();
         super.processPipes();
         mMaxAmps = Integer.MAX_VALUE;
         mMaxVoltage = Integer.MAX_VALUE;
         for (MetaPipeEntity tCable : mPipes) {
             if (tCable instanceof GT_MetaPipeEntity_Cable) {
-                mMaxAmps = Math
-                    .min((long) Math.ceil(((GT_MetaPipeEntity_Cable) tCable).mAmperage * ampMultiplier), mMaxAmps);
+                mMaxAmps = Math.min((long) Math.ceil(((GT_MetaPipeEntity_Cable) tCable).mAmperage), mMaxAmps);
                 mLoss += ((GT_MetaPipeEntity_Cable) tCable).mCableLossPerMeter;
                 mMaxVoltage = Math.min(((GT_MetaPipeEntity_Cable) tCable).mVoltage, mMaxVoltage);
             }

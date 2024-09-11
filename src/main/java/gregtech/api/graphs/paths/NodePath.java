@@ -3,7 +3,6 @@ package gregtech.api.graphs.paths;
 import gregtech.api.graphs.Lock;
 import gregtech.api.metatileentity.BaseMetaPipeEntity;
 import gregtech.api.metatileentity.MetaPipeEntity;
-import gregtech.common.misc.RecipeTimeAdjuster;
 
 // to contain all info about the path between nodes
 public class NodePath {

@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
@@ -201,7 +202,7 @@ public abstract class KubaTechGTMultiBlockBase<T extends GT_MetaTileEntity_Exten
     }
 
     public double getVoltageTierExact() {
-        return Math.log((double) getMaxInputEu() / 8d) / ln4 + 1e-8d;
+        return Math.log((double) getMaxInputEu() / RecipeTimeAdjuster.getMultiplierByMSPT() / 8d) / ln4 + 1e-8d;
     }
 
     protected boolean tryOutputAll(List<ItemStack> list) {
