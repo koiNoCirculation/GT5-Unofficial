@@ -15,17 +15,16 @@ import org.apache.commons.io.IOUtils;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ConfigCategories;
 import gregtech.api.util.GT_Config;
+import gregtech.api.util.GT_Log;
 
 public class RecipeTimeAdjuster {
 
     // tps over 15 minutes
     // so tps can change smoothly to avoid power loss
 
-    static File tpsFile = new File(
-        GT_Config.sConfigFileIDs.getConfigFile()
-            .getParent() + File.separator + "tps_rec.txt");
+    static File tpsFile;
     static final int DURATION = 18000;
-    private static double[] tickTimeArray = new double[DURATION];
+    private static double[] tickTimeArray;
 
     private static double ticktimeSum = 0;
 
@@ -35,11 +34,18 @@ public class RecipeTimeAdjuster {
     public static boolean ENABLE = false;
 
     public static void init() {
-        Arrays.fill(tickTimeArray, 0);
-        loadTickTimeArray();
         ENABLE = GregTech_API.sSpecialFile.get(ConfigCategories.general, "AdjustRecipeByTPS", false);
-        for (double l : tickTimeArray) {
-            ticktimeSum += l;
+        if (ENABLE) {
+            tickTimeArray = new double[DURATION];
+            Arrays.fill(tickTimeArray, 0);
+            loadTickTimeArray();
+            tpsFile = new File(
+                GT_Config.sConfigFileIDs.getConfigFile()
+                    .getParent() + File.separator + "tps_rec.txt");
+            GT_Log.out.println("Enable adjusting recipes by tps: " + ENABLE);
+            for (double l : tickTimeArray) {
+                ticktimeSum += l;
+            }
         }
     }
 
