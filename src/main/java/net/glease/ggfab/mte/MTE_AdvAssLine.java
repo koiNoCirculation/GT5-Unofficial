@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+import gregtech.common.misc.RecipeTimeAdjuster;
 import net.glease.ggfab.ConfigurationHandler;
 import net.glease.ggfab.GGConstants;
 import net.glease.ggfab.mui.ClickableTextWidget;
@@ -502,7 +503,7 @@ public class MTE_AdvAssLine extends GT_MetaTileEntity_ExtendedPowerMultiBlockBas
             inputEUt = 0;
             mEnergyHatches.forEach(this::recordEnergySupplier);
             mExoticEnergyHatches.forEach(this::recordEnergySupplier);
-            if (mMaxProgresstime > 0 && (oV != inputVoltage || oEut != inputEUt)) {
+            if (mMaxProgresstime > 0 && (oV != inputVoltage || (oEut != inputEUt && !RecipeTimeAdjuster.ENABLE))) {
                 criticalStopMachine("ggfab.gui.advassline.shutdown.structure");
             }
             return true;
