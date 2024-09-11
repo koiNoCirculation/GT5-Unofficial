@@ -32,7 +32,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
-import gregtech.common.misc.RecipeTimeAdjuster;
 import net.glease.ggfab.ConfigurationHandler;
 import net.glease.ggfab.GGConstants;
 import net.glease.ggfab.mui.ClickableTextWidget;
@@ -98,6 +97,7 @@ import gregtech.api.util.GT_Utility;
 import gregtech.api.util.GT_Waila;
 import gregtech.api.util.IGT_HatchAdder;
 import gregtech.api.util.shutdown.ShutDownReason;
+import gregtech.common.misc.RecipeTimeAdjuster;
 import gregtech.common.tileentities.machines.GT_MetaTileEntity_Hatch_InputBus_ME;
 import gregtech.common.tileentities.machines.GT_MetaTileEntity_Hatch_Input_ME;
 import mcp.mobius.waila.api.IWailaConfigHandler;

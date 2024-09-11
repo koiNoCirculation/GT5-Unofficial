@@ -330,6 +330,20 @@ public final class GT_Command extends CommandBase {
                             + "."));
 
             }
+            case "mspt_adjust_stats" -> {
+                sender.addChatMessage(
+                    new ChatComponentText(
+                        String.format(
+                            """
+                                TPS adjust multiplier over last 15 minutes = %f
+                                Total tick time is %f ms over last 15 minutes
+                                Average TPS/MSPT(>=50ms) over last 15 minutes is %f, %f
+                                """,
+                            (float) RecipeTimeAdjuster.multiplier,
+                            (float) RecipeTimeAdjuster.ticktimeSum,
+                            (float) (Math.min(1000 * RecipeTimeAdjuster.DURATION / RecipeTimeAdjuster.ticktimeSum, 20)),
+                            (float) (RecipeTimeAdjuster.ticktimeSum / RecipeTimeAdjuster.DURATION))));
+            }
             default -> {
                 sender
                     .addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Invalid command/syntax detected."));

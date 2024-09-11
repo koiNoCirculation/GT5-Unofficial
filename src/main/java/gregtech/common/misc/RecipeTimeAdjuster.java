@@ -23,10 +23,10 @@ public class RecipeTimeAdjuster {
     // so tps can change smoothly to avoid power loss
 
     static File tpsFile;
-    static final int DURATION = 18000;
+    public static final int DURATION = 18000;
     private static double[] tickTimeArray;
 
-    private static double ticktimeSum = 0;
+    public static double ticktimeSum = 0;
 
     // only used on loading
     static double multiplier = 20;
